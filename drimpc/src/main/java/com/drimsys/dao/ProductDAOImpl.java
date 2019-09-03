@@ -39,6 +39,11 @@ public class ProductDAOImpl implements ProductDAO {
     		return -1;
     	}
     }
- 
-}
+    
+//상품 조회 관련
+    @Override
+    public List<ProductVO> salesProduct() throws Exception {
+    	return sqlSession.selectList("com.drimsys.mapper.salesMapper.salesProduct");
+    }
+}	
 

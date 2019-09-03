@@ -21,6 +21,8 @@ public interface UserDAO {
     //시간추가 관련
     public int updateUserTime(UserVO userVO) throws Exception;
     
+    //상품 조회 관련
+    public List<UserVO> salesUser() throws Exception;
     
 }
 

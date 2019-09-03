@@ -9,6 +9,8 @@ public class ProductVO {
 	private int product_available;
 	private int user_select_quantity;
 
+	private User_ProductVO ucVO;
+	
 	public String getProduct_id() {
 		return product_id;
 	}
@@ -56,5 +58,14 @@ public class ProductVO {
 	public void setUser_select_quantity(int user_select_quantity) {
 		this.user_select_quantity = user_select_quantity;
 	}
+
+	public User_ProductVO getUcVO() {
+		return ucVO;
+	}
+
+	public void setUcVO(User_ProductVO ucVO) {
+		this.ucVO = ucVO;
+	}
+	
 	
 }

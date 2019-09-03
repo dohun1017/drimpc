@@ -22,6 +22,7 @@ import com.drimsys.service.inf.ComputerService;
 import com.drimsys.service.inf.LoginService;
 import com.drimsys.service.inf.OrderService;
 import com.drimsys.service.inf.ProductService;
+import com.drimsys.service.inf.SalesService;
 import com.drimsys.service.inf.SignUpService;
 import com.drimsys.service.inf.UserService;
 import com.drimsys.service.inf.User_ComputerService;
@@ -51,6 +52,8 @@ public class HomeController {
 	private SignUpService signUp_service;
 	@Inject
 	private OrderService order_service;
+	@Inject
+	private SalesService sales_service;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -64,13 +67,18 @@ public class HomeController {
 		List<ProductVO> productList = product_service.selectProduct();
 		List<User_ComputerVO> user_computerList = user_computer_service.selectUser_Computer();
 		List<User_ProductVO> user_productList = user_product_service.selectUser_Product();
-
+		
 		model.addAttribute("userList", userList);
 		model.addAttribute("computerList", computerList);
 		model.addAttribute("productList", productList);
 		model.addAttribute("user_computerList", user_computerList);
 		model.addAttribute("user_productList", user_productList);
 
+		List<UserVO> salesList = sales_service.salesUser();
+		model.addAttribute("salesList",salesList);
+		
+		List<ProductVO> salesList2 = sales_service.salesProduct();
+		model.addAttribute("salesList2", salesList2);
 		
 //		//로그인 API
 //		String user_id = "one1";
@@ -148,23 +156,23 @@ public class HomeController {
 //			
 //		}
 		
-		//상품 주문
-		String user_id = "one1";
-		String product_id = "음료_1";
-		int product_quantity = 1;
-		String date = "2019-07-31 11:21";
-		ProductVO orderProduct = new ProductVO();
-		orderProduct.setProduct_id(product_id);
-		orderProduct.setUser_select_quantity(product_quantity);
-		if(order_service.updateProductTot(orderProduct)) {
-			User_ProductVO orderUP = new User_ProductVO();
-			orderUP.setUser_id(user_id);
-			orderUP.setProduct_id(product_id);
-			orderUP.setProduct_quantity(product_quantity);
-			orderUP.setDate(date);
-			if(order_service.insertUser_Product(orderUP))
-				System.out.println("주문 성공");
-		}
+//		//상품 주문
+//		String user_id = "one1";
+//		String product_id = "음료_1";
+//		int product_quantity = 1;
+//		String date = "2019-07-31 11:21";
+//		ProductVO orderProduct = new ProductVO();
+//		orderProduct.setProduct_id(product_id);
+//		orderProduct.setUser_select_quantity(product_quantity);
+//		if(order_service.updateProductTot(orderProduct)) {
+//			User_ProductVO orderUP = new User_ProductVO();
+//			orderUP.setUser_id(user_id);
+//			orderUP.setProduct_id(product_id);
+//			orderUP.setProduct_quantity(product_quantity);
+//			orderUP.setDate(date);
+//			if(order_service.insertUser_Product(orderUP))
+//				System.out.println("주문 성공");
+//		}
 		return "home";
 	}
 

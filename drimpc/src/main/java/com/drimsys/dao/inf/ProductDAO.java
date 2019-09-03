@@ -12,6 +12,9 @@ public interface ProductDAO {
     public ProductVO selectProductName(ProductVO productVO) throws Exception;
 
     public int updateProductTot(ProductVO productVO) throws Exception;
+    
+//상품 조회 관련
+    public List<ProductVO> salesProduct() throws Exception;
 }
 
 

@@ -70,4 +70,10 @@ public class UserDAOImpl implements UserDAO {
 			return -1;
 		}
 	}
+
+//상품 조회 관련
+	@Override
+	public List<UserVO> salesUser() throws Exception {
+		return sqlSession.selectList("com.drimsys.mapper.salesMapper.salesUser");
+	}
 }

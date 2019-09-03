@@ -152,6 +152,52 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<br>
+	<br> 회원별 매출 조회 테이블
+	<br>
+	<table>
+		<thead>
+			<tr>
+				<th>사용자 이름&nbsp;</th>
+				<th>상품 명&nbsp;</th>
+				<th>상품 수량&nbsp;</th>
+				<th>상품 가격&nbsp;</th>
+				<th>날짜&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${salesList}" var="salesUser">
+				<tr>
+					<td>${salesUser.user_name}&nbsp;</td>
+					<td>${salesUser.productVO.product_name}&nbsp;</td>
+					<td>${salesUser.ucVO.product_quantity}&nbsp;</td>
+					<td>${salesUser.join_sales_product_price}&nbsp;</td>
+					<td>${salesUser.ucVO.date}</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+	<br>
+	<br> 상품별 매출 조회 테이블
+	<br>
+	<table>
+		<thead>
+			<tr>
+				<th>상품 명&nbsp;</th>
+				<th>상품 수량&nbsp;</th>
+				<th>상품 가격&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${salesList2}" var="salesProduct">
+				<tr>
+					<td>${salesProduct.product_name}&nbsp;</td>
+					<td>${salesProduct.ucVO.product_quantity}&nbsp;</td>
+					<td>${salesProduct.product_price}&nbsp;</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 
 </body>
 </html>
