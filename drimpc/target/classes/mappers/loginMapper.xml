@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drimsys.mapper.loginMapper">
+
+
+	<select id="selectUserUsing" resultType="UserVO">
+		SELECT user_using
+		FROM user
+		WHERE user_id = '${user_id}' AND user_pw = '${user_pw}'
+	</select>
+	
+	<select id="selectComputerUsing" resultType="ComputerVO">
+		SELECT computer_using, computer_status
+		FROM computer
+		WHERE computer_id = '${computer_id}'
+	</select>
+	
+	<select id="updateUserUsing">
+		UPDATE user SET user_using = 1 WHERE user_id = '${user_id}'
+	</select>
+	
+	<select id = "updateComputerUsing">
+		UPDATE computer SET computer_using = 1 
+		WHERE computer_id = ${computer_id}
+	</select>
+	
+	<select id="insertLoginUser_Computer">
+		INSERT INTO user_computer(user_id, computer_id, start, end)
+		VALUES('${user_id}', ${computer_id}, '${start}', '${end}')	
+	</select>
+
+</mapper>

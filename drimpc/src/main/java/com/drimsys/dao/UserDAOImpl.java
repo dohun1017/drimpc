@@ -1,0 +1,73 @@
+package com.drimsys.dao;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+import org.slf4j.Logger;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import com.drimsys.dao.inf.UserDAO;
+import com.drimsys.dto.UserVO;
+
+@Repository
+public class UserDAOImpl implements UserDAO {
+
+	@Inject
+	private SqlSession sqlSession;
+
+	private static final String Namespace = "com.drimsys.mapper.userMapper";
+
+	@Override
+	public List<UserVO> selectUser() throws Exception {
+
+		return sqlSession.selectList(Namespace + ".selectUser");
+	}
+
+//로그인 관련
+	@Override
+	public UserVO selectUserUsing(UserVO userVO) throws Exception {
+
+		return sqlSession.selectOne("com.drimsys.mapper.loginMapper.selectUserUsing", userVO);
+	}
+
+	@Override
+	public int updateUserUsing(UserVO userVO) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			return sqlSession.update("com.drimsys.mapper.loginMapper.updateUserUsing", userVO);
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+//회원가입 관련
+	@Override
+	public List<UserVO> selectSignUpUser(UserVO userVO) throws Exception {
+		return sqlSession.selectList("com.drimsys.mapper.signupMapper.selectSignUpUser",userVO);
+	}
+	
+	@Override
+	public int insertSignUpUser(UserVO userVO) throws Exception {
+		try {
+			return sqlSession.insert("com.drimsys.mapper.signupMapper.insertSignUpUser",userVO);
+		}catch (Exception e) {
+			return -1;
+		}
+	}
+	
+//시간추가 관련
+	@Override
+	public int updateUserTime(UserVO userVO) throws Exception {
+		try {
+			return sqlSession.update("com.drimsys.mapper.orderMapper.updateUserTime", userVO);
+		}catch (Exception e) {
+			return -1;
+		}
+	}
+}

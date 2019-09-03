@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.drimsys.dto.UserVO" alias="UserVO" />
+		<typeAlias type="com.drimsys.dto.ComputerVO" alias="ComputerVO" />
+		<typeAlias type="com.drimsys.dto.ProductVO" alias="ProductVO" />
+		<typeAlias type="com.drimsys.dto.User_ComputerVO" alias="User_ComputerVO" />
+		<typeAlias type="com.drimsys.dto.User_ProductVO" alias="User_ProductVO" />
+	</typeAliases>
+</configuration>
+

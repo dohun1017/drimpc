@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.drimsys.mapper.signupMapper">
+
+
+	<select id="selectSignUpUser" resultType="UserVO">
+		SELECT user_id, user_email
+		FROM user
+		WHERE user_id = '${user_id}' OR user_email = '${user_email}'
+	</select>
+	
+	<select id="insertSignUpUser">
+		INSERT INTO user(user_name, user_id, user_pw, user_time, user_using, user_email)
+		VALUES('${user_name}','${user_id}','${user_pw}',${user_time},${user_using},'${user_email}')
+	</select>
+
+</mapper>
