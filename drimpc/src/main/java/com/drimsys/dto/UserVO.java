@@ -8,13 +8,10 @@ public class UserVO {
     private int user_using;
     private int user_time;
     private String user_email;
+    
     private int user_select_quantity;
     
-    private String join_sales_product_name;
-    private int join_sales_product_quantity;
-    private int join_sales_product_price;
-    private String join_sales_date;
-    
+    private int join_user_all_price;
     private ProductVO productVO;
     private User_ProductVO ucVO;
     
@@ -54,35 +51,19 @@ public class UserVO {
 	public void setUser_email(String user_email) {
 		this.user_email = user_email;
 	}
+	
 	public int getUser_select_quantity() {
 		return user_select_quantity;
 	}
 	public void setUser_select_quantity(int user_select_quantity) {
 		this.user_select_quantity = user_select_quantity;
 	}
-	public String getJoin_sales_product_name() {
-		return join_sales_product_name;
+	
+	public int getJoin_user_all_price() {
+		return join_user_all_price;
 	}
-	public void setJoin_sales_product_name(String join_sales_product_name) {
-		this.join_sales_product_name = join_sales_product_name;
-	}
-	public int getJoin_sales_product_quantity() {
-		return join_sales_product_quantity;
-	}
-	public void setJoin_sales_product_quantity(int join_sales_product_quantity) {
-		this.join_sales_product_quantity = join_sales_product_quantity;
-	}
-	public int getJoin_sales_product_price() {
-		return join_sales_product_price;
-	}
-	public void setJoin_sales_product_price(int join_sales_product_price) {
-		this.join_sales_product_price = join_sales_product_price;
-	}
-	public String getJoin_sales_date() {
-		return join_sales_date;
-	}
-	public void setJoin_sales_date(String join_sales_date) {
-		this.join_sales_date = join_sales_date;
+	public void setJoin_user_all_price(int join_user_all_price) {
+		this.join_user_all_price = join_user_all_price;
 	}
 	public ProductVO getProductVO() {
 		return productVO;

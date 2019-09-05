@@ -166,12 +166,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${salesList}" var="salesUser">
+			<c:forEach items="${salesUserList}" var="salesUser">
 				<tr>
 					<td>${salesUser.user_name}&nbsp;</td>
 					<td>${salesUser.productVO.product_name}&nbsp;</td>
 					<td>${salesUser.ucVO.product_quantity}&nbsp;</td>
-					<td>${salesUser.join_sales_product_price}&nbsp;</td>
+					<td>${salesUser.join_user_all_price}&nbsp;</td>
 					<td>${salesUser.ucVO.date}</td>
 				</tr>
 			</c:forEach>
@@ -189,16 +189,53 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${salesList2}" var="salesProduct">
+			<c:forEach items="${salesProductList}" var="salesProduct">
 				<tr>
 					<td>${salesProduct.product_name}&nbsp;</td>
-					<td>${salesProduct.ucVO.product_quantity}&nbsp;</td>
-					<td>${salesProduct.product_price}&nbsp;</td>
+					<td>${salesProduct.join_product_all_quantity}&nbsp;</td>
+					<td>${salesProduct.join_product_all_price}&nbsp;</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-
+	<br>
+	<br> 날짜별 매출 조회 테이블
+	<br>
+	<table>
+		<thead>
+			<tr>
+				<th>기간&nbsp;</th>
+				<th>금액&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+				<tr>
+					<td>${salesDate.start_date} ~ ${salesDate.end_date}&nbsp;</td>
+					<td>${salesDate.join_date_price}&nbsp;</td>
+				</tr>
+		</tbody>
+	</table>
+	<br>
+	<br> 회원 정보 조회
+	<br>
+	<table>
+		<thead>
+			<tr>
+				<th>사용자 이름&nbsp;</th>
+				<th>사용자 아이디&nbsp;</th>
+				<th>사용자 이메일&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${admin_selectList}" var="admin_user">
+				<tr>
+					<td>${admin_user.user_name}&nbsp;</td>
+					<td>${admin_user.user_id}&nbsp;</td>
+					<td>${admin_user.user_email}&nbsp;</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 </body>
 </html>
 

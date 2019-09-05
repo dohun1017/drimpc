@@ -31,5 +31,16 @@
 		UPDATE computer SET computer_using = 1 
 		WHERE computer_id = ${computer_id}
 	</select>
+	
+	<select id = "admin_selectUser" resultType = "UserVO">
+		SELECT user_name, user_id, user_email
+		FROM user
+		ORDER BY user_name ASC
+	</select>
+	
+	<update id = "update_user_pw">
+		UPDATE user SET user_pw = '${user_pw}'
+		WHERE user_id = '${user_id}'
+	</update>
 
 </mapper>

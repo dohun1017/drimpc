@@ -10,5 +10,21 @@
 		select product_id, product_name, product_price, product_tot, product_available 
 		from product
 	</select>
+	
+	<select id="select_admin_Product" resultType="ProductVO">
+		SELECT product_name, product_price, product_tot, product_available
+		FROM product
+		WHERE product_tot > 0
+	</select>
 
+	<select id="update_Product_available">
+		UPDATE product
+		SET product_available = IF(product_available = 0 , 1, IF(product_available = 1 , 0, product_available))
+		WHERE product_id = '${product_id}';
+	</select>
+
+	<select id="insert_Product" resultType="ProductVO">
+		INSERT INTO product(product_id, product_name, product_price, product_tot, product_available)
+		VALUES('${product_id}','${product_name}',${product_price},${product_tot},${product_available});
+	</select>
 </mapper>

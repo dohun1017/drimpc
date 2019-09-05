@@ -7,8 +7,21 @@
 
 
 	<select id="selectComputer" resultType="ComputerVO">
-		select computer_id, computer_using, computer_status from computer
+		SELECT computer_id, computer_using, computer_status 
+		FROM computer
 	</select>
+	
+	<update id="updateComputer_status">
+		UPDATE computer
+		SET computer_status = IF(computer_status = 0 , 1, IF(computer_status = 1 , 0, computer_status))
+		WHERE computer_id = ${computer_id};
+	</update>
+	
+	<insert id="insertComputer">
+		INSERT INTO computer(computer_id, computer_using, computer_status) 
+		VALUES(${computer_id}, ${computer_using}, ${computer_status})
+	</insert>
+	
 
 
 </mapper>

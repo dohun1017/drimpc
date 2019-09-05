@@ -13,15 +13,15 @@
 		SELECT product_name FROM product WHERE product_id = '${product_id}'
 	</select>
 	
-	<select id="insertUser_Product">
+	<insert id="insertUser_Product">
 		INSERT INTO user_product(user_id, product_id, product_quantity, date) 
 		VALUES('${user_id}', '${product_id}', ${product_quantity}, '${date}')
-	</select>
+	</insert>
 	
 	<!-- 시간 추가 관련 -->
-	<select id="updateUserTime" resultType="UserVO">
+	<update id="updateUserTime">
 		UPDATE user SET user_time = user_time + 60 * ${user_select_quantity} 
 		WHERE user_id = '${user_id}'
-	</select>
+	</update>
 
 </mapper>

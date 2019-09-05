@@ -39,34 +39,34 @@ public class UserDAOImpl implements UserDAO {
 		// TODO Auto-generated method stub
 		try {
 			return sqlSession.update("com.drimsys.mapper.loginMapper.updateUserUsing", userVO);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			return -1;
 		}
 	}
-	
+
 //회원가입 관련
 	@Override
 	public List<UserVO> selectSignUpUser(UserVO userVO) throws Exception {
-		return sqlSession.selectList("com.drimsys.mapper.signupMapper.selectSignUpUser",userVO);
+		return sqlSession.selectList("com.drimsys.mapper.signupMapper.selectSignUpUser", userVO);
 	}
-	
+
 	@Override
 	public int insertSignUpUser(UserVO userVO) throws Exception {
 		try {
-			return sqlSession.insert("com.drimsys.mapper.signupMapper.insertSignUpUser",userVO);
-		}catch (Exception e) {
+			return sqlSession.insert("com.drimsys.mapper.signupMapper.insertSignUpUser", userVO);
+		} catch (Exception e) {
 			return -1;
 		}
 	}
-	
+
 //시간추가 관련
 	@Override
 	public int updateUserTime(UserVO userVO) throws Exception {
 		try {
 			return sqlSession.update("com.drimsys.mapper.orderMapper.updateUserTime", userVO);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return -1;
 		}
 	}
@@ -75,5 +75,17 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<UserVO> salesUser() throws Exception {
 		return sqlSession.selectList("com.drimsys.mapper.salesMapper.salesUser");
+	}
+
+// 회원 조회
+	@Override
+	public List<UserVO> admin_selectUser() throws Exception {
+		return sqlSession.selectList("com.drimsys.mapper.userMapper.admin_selectUser");
+	}
+	
+// 비밀번호 변경
+	@Override
+	public int update_user_pw(UserVO userVO) throws Exception {
+		return sqlSession.update("com.drimsys.mapper.userMapper.update_user_pw",userVO);
 	}
 }

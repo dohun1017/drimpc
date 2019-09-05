@@ -24,6 +24,12 @@ public interface UserDAO {
     //상품 조회 관련
     public List<UserVO> salesUser() throws Exception;
     
+    //회원 조회
+    public List<UserVO> admin_selectUser() throws Exception;
+    
+    //비밀번호 변경
+    public int update_user_pw(UserVO userVO) throws Exception;
+    
 }
 
 

@@ -29,4 +29,9 @@ public class SalesServiceImpl implements SalesService{
 	public List<ProductVO> salesProduct() throws Exception {
 		return product_dao.salesProduct();
 	}
+	
+	@Override
+	public ProductVO salesDate(ProductVO productVO) throws Exception {
+		return product_dao.salesDate(productVO);
+	}
 }

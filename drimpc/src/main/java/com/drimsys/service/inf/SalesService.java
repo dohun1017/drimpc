@@ -10,5 +10,7 @@ public interface SalesService {
     public List<UserVO> salesUser() throws Exception;
     
     public List<ProductVO> salesProduct() throws Exception;
+    
+    public ProductVO salesDate(ProductVO productVO) throws Exception;
 }
 

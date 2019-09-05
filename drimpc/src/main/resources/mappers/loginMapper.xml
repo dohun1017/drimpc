@@ -7,29 +7,29 @@
 
 
 	<select id="selectUserUsing" resultType="UserVO">
-		SELECT user_using
+		SELECT user_using, user_id
 		FROM user
 		WHERE user_id = '${user_id}' AND user_pw = '${user_pw}'
 	</select>
 	
 	<select id="selectComputerUsing" resultType="ComputerVO">
-		SELECT computer_using, computer_status
+		SELECT computer_using, computer_status, computer_id
 		FROM computer
 		WHERE computer_id = '${computer_id}'
 	</select>
 	
-	<select id="updateUserUsing">
+	<update id="updateUserUsing">
 		UPDATE user SET user_using = 1 WHERE user_id = '${user_id}'
-	</select>
+	</update>
 	
-	<select id = "updateComputerUsing">
+	<update id = "updateComputerUsing">
 		UPDATE computer SET computer_using = 1 
 		WHERE computer_id = ${computer_id}
-	</select>
+	</update>
 	
-	<select id="insertLoginUser_Computer">
+	<insert id="insertLoginUser_Computer">
 		INSERT INTO user_computer(user_id, computer_id, start, end)
 		VALUES('${user_id}', ${computer_id}, '${start}', '${end}')	
-	</select>
+	</insert>
 
 </mapper>
