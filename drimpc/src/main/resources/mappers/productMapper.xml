@@ -10,13 +10,22 @@
 		select product_id, product_name, product_price, product_tot, product_available 
 		from product
 	</select>
-	
+
+<!-- 상품 목록 전체 추출  -->	
 	<select id="select_admin_Product" resultType="ProductVO">
 		SELECT product_name, product_price, product_tot, product_available
 		FROM product
 		WHERE product_tot > 0
 	</select>
-
+	
+	<!-- 판매 가능 상품 목록 추출 -->
+	<select id="select_Product_available" resultType="ProductVO">
+		SELECT product_name, product_price
+		FROM product
+		WHERE product_tot > 0 and product_available = 1 
+	</select>
+	
+	<!-- 상품 판매 상태 변경 -->
 	<select id="update_Product_available">
 		UPDATE product
 		SET product_available = IF(product_available = 0 , 1, IF(product_available = 1 , 0, product_available))

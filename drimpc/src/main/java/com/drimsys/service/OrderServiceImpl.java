@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public ProductVO selectProductName(ProductVO productVO) throws Exception {
+	public ProductVO selectProductID(ProductVO productVO) throws Exception {
 		return product_dao.selectProductName(productVO);
 	}
 

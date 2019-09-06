@@ -59,6 +59,10 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	@RequestMapping(value="test", method = RequestMethod.GET)
+	public String test(Locale locale, Model model) throws Exception{
+		return "test";
+	}
 /*	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) throws Exception {
 

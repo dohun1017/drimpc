@@ -9,8 +9,8 @@
 		UPDATE product SET product_tot = product_tot - ${user_select_quantity} WHERE product_id = '${product_id}'
 	</select>
 	
-	<select id="selectProductName" resultType="ProductVO">
-		SELECT product_name FROM product WHERE product_id = '${product_id}'
+	<select id="selectProductID" resultType="ProductVO">
+		SELECT product_id, product_name, product_tot FROM product WHERE product_name = '${product_name}'
 	</select>
 	
 	<insert id="insertUser_Product">

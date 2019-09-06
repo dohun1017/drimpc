@@ -71,7 +71,7 @@ public class LoginController {
 						if (userVO.getUser_id().equals("admin"))
 							returnURL = "redirect:/admin_product";
 						else
-							returnURL = "redirect:/user";
+							returnURL = "redirect:/user_main";
 					}
 				}
 			}

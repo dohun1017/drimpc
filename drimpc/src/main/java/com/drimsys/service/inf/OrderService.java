@@ -8,7 +8,7 @@ public interface OrderService {
 	
 	public boolean updateProductTot(ProductVO productVO) throws Exception;
 	
-	public ProductVO selectProductName(ProductVO productVO) throws Exception;
+	public ProductVO selectProductID(ProductVO productVO) throws Exception;
 	
 	public boolean insertUser_Product(User_ProductVO upVO) throws Exception;
 	

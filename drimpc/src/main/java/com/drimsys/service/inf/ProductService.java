@@ -16,4 +16,7 @@ public interface ProductService {
 
 	// 관리자 상품 조회 관련
 	public List<ProductVO> select_admin_Product() throws Exception;
+	
+	// 구매 가능 상품 조회
+	public List<ProductVO> select_Product_available() throws Exception;
 }

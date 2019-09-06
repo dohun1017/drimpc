@@ -27,7 +27,7 @@ public class ProductDAOImpl implements ProductDAO {
 //상품 주문 관련
 	@Override
 	public ProductVO selectProductName(ProductVO productVO) throws Exception {
-		return sqlSession.selectOne("com.drimsys.mapper.orderMapper.selectProductName", productVO);
+		return sqlSession.selectOne("com.drimsys.mapper.orderMapper.selectProductID", productVO);
 	}
 
 	@Override
@@ -76,5 +76,11 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public List<ProductVO> select_admin_Product() throws Exception {
 		return sqlSession.selectList("com.drimsys.mapper.productMapper.select_admin_Product");
+	}
+	
+	//구매 가능 상품 조회
+	@Override
+	public List<ProductVO> select_Product_available() throws Exception {
+		return sqlSession.selectList("com.drimsys.mapper.productMapper.select_Product_available");
 	}
 }

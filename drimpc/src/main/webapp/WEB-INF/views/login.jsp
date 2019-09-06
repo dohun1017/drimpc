@@ -22,6 +22,11 @@
 <!-- Custom styles for this template-->
 <link href="../drimpc/resources/css/sb-admin.css" rel="stylesheet">
 
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+	
 </head>
 
 <body class="bg-dark">
@@ -49,9 +54,7 @@
 				</form>
 
 				<div class="text-center">
-					<a class="d-block small mt-3" href="register.html">Register an
-						Account</a> <a class="d-block small" href="forgot-password.html">Forgot
-						Password?</a>
+					<a class="d-block small mt-3" href="register.html">회원 가입</a> 
 				</div>
 			</div>
 		</div>
@@ -65,7 +68,12 @@
 	<!-- Core plugin JavaScript-->
 	<script
 		src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
+	
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	
 </body>
 
 </html>

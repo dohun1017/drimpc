@@ -53,5 +53,11 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductVO> select_admin_Product() throws Exception {
 		return dao.select_admin_Product();
 	}
+	
+	//구매 가능 상품 조회
+	@Override
+	public List<ProductVO> select_Product_available() throws Exception {
+		return dao.select_Product_available();
+	}
 
 }
