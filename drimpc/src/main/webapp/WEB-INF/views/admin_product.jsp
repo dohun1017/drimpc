@@ -150,48 +150,50 @@
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
-							<table class="table table-bordered" id="dataTable" width="100%"
-								cellspacing="0">
-								<thead>
-									<tr>
-										<th>상품명</th>
-										<th>가격</th>
-										<th>수량</th>
-										<th>판매여부</th>
-									</tr>
-								</thead>
-								<tfoot>
-									<tr>
-										<th>상품명</th>
-										<th>가격</th>
-										<th>수량</th>
-										<th>판매여부</th>
-									</tr>
-								</tfoot>
-								<tbody>
-									<c:forEach items="${productList}" var="product">
+							<form action="product_status" method="get">
+								<table class="table table-bordered" id="dataTable" width="100%"
+									cellspacing="0">
+									<thead>
 										<tr>
-											<td>${product.product_name}&nbsp;					
-											<td>${product.product_price}&nbsp;</td>
-											<td>${product.product_tot}&nbsp;</td>
-											<c:choose>
-											<form action = "product_status" method = "get">
-												<c:when test='${product.product_available == 1}'>
-													<td>판매중
-														<button type="submit" class="btn btn-primary btn-block">상태 변경</button>
-													</td>
-												</c:when>
-												<c:when test='${product.product_available == 0}'>
-													<td>판매중지
-														<button type="submit" class="btn btn-primary btn-block">상태 변경</button>
-													</td>
-												</c:when>
-											</form>
-											</c:choose>
+											<th>상품명</th>
+											<th>가격</th>
+											<th>수량</th>
+											<th>판매여부</th>
 										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>상품명</th>
+											<th>가격</th>
+											<th>수량</th>
+											<th>판매여부</th>
+										</tr>
+									</tfoot>
+									<tbody>
+										<c:forEach items="${productList}" var="product">
+											<tr>
+												<td>${product.product_name}&nbsp;
+												<td>${product.product_price}&nbsp;</td>
+												<td>${product.product_tot}&nbsp;</td>
+												<c:choose>
+													<c:when test='${product.product_available == 1}'>
+														<td>판매중
+															<button type="submit" class="btn btn-primary btn-block">상태
+																변경</button>
+														</td>
+													</c:when>
+													<c:when test='${product.product_available == 0}'>
+														<td>판매중지
+															<button type="submit" class="btn btn-primary btn-block">상태
+																변경</button>
+														</td>
+													</c:when>
+												</c:choose>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</form>
 						</div>
 					</div>
 					<div class="card-footer small text-muted">Updated yesterday
