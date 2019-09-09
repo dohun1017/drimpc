@@ -43,4 +43,10 @@
 		WHERE user_id = '${user_id}'
 	</update>
 
+	<select id = "select_forgot_user" resultType = "UserVO">
+		SELECT user_id, user_email
+		FROM user
+		WHERE user_id = '${user_id}' AND user_email = '${user_email}'
+	</select>
+	
 </mapper>

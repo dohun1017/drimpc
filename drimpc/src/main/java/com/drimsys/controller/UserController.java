@@ -10,17 +10,15 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.drimsys.dto.*;
 import com.drimsys.service.inf.OrderService;
 import com.drimsys.service.inf.ProductService;
+import com.drimsys.service.inf.SignUpService;
 import com.drimsys.service.inf.UserService;
 
 /**
@@ -35,6 +33,8 @@ public class UserController {
 	OrderService order_service;
 	@Inject
 	UserService user_service;
+	@Inject
+	SignUpService signup_service;
 
 	@RequestMapping(value = "/user_main", method = RequestMethod.GET)
 	public String user_main(Locale locale, Model model) throws Exception {
@@ -44,10 +44,10 @@ public class UserController {
 		return "user_main";
 	}
 
-	@RequestMapping(value = "/user_add", method = RequestMethod.GET)
-	public String user_add(Locale locale, Model model) throws Exception {
+	@RequestMapping(value = "/time_add", method = RequestMethod.GET)
+	public String time_add(Locale locale, Model model) throws Exception {
 
-		return "user_add";
+		return "time_add";
 	}
 
 	@RequestMapping(value = "/orderProcess", method = RequestMethod.GET)
@@ -99,6 +99,16 @@ public class UserController {
 		return "redirect:/user_main";
 	}
 
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String register(Locale locale, Model model) throws Exception {
+		return "register";
+	}
+	
+	@RequestMapping(value = "/forgot_password", method = RequestMethod.GET)
+	public String forgot_password(Locale locale, Model model) throws Exception {
+		return "forgot_password";
+	}
+	
 	@RequestMapping(value = "/order_time_Process", method = RequestMethod.GET)
 	public String order_time_Process(HttpServletRequest request, HttpSession session, Model model) throws Exception {
 
@@ -112,13 +122,14 @@ public class UserController {
 
 		String user_id = request.getParameter("user_id");
 		String str_user_time = request.getParameter("user_time");
+		System.out.println(str_user_time);
 
 		if (str_user_time.equals("0"))
-			return "user_add";
+			return "time_add";
 		int user_time = Integer.parseInt(str_user_time);
 
 		userVO.setUser_id(user_id);
-		userVO.setUser_time(user_time * 60);
+		userVO.setUser_select_quantity(user_time);
 		if (order_service.updateUserTime(userVO)) {
 			productVO.setProduct_id("시간");
 			productVO.setProduct_name("시간");
@@ -128,11 +139,72 @@ public class UserController {
 				upVO.setProduct_id("시간");
 				upVO.setProduct_quantity(user_time);
 				upVO.setDate(date);
-				if(order_service.insertUser_Product(upVO))
-					return "user_add";
+				if (order_service.insertUser_Product(upVO))
+						return "login";
 			}
 		}
 
-		return "request:/user_main";
+		return "time_add";
+	}
+
+	@RequestMapping(value = "/registerProcess", method = RequestMethod.GET)
+	public String registerProcess(HttpServletRequest request, HttpSession session, Model model) throws Exception {
+
+		if (!request.getParameter("user_pw").equals(request.getParameter("confirm_user_pw"))) {
+			System.out.println(request.getParameter("user_pw"));
+			System.out.println(request.getParameter("confirm_user_pw"));
+			return "redirect:/register";
+		}
+		if (request.getParameter("user_id") == null || request.getParameter("user_email") == null
+				|| request.getParameter("user_pw") == null || request.getParameter("user_name") == null) {
+			System.out.println(request.getParameter("user_id"));
+			System.out.println(request.getParameter("user_email"));
+			System.out.println(request.getParameter("user_name"));
+			System.out.println(request.getParameter("user_pw"));
+			return "redirect:/register";
+		}
+		UserVO userVO = new UserVO();
+		String user_name = request.getParameter("user_name");
+		String user_id = request.getParameter("user_id");
+		String user_pw = request.getParameter("user_pw");
+		String user_email = request.getParameter("user_email");
+
+		userVO.setUser_email(user_email);
+		userVO.setUser_id(user_id);
+		userVO.setUser_name(user_name);
+		userVO.setUser_pw(user_pw);
+
+		List<UserVO> possible = signup_service.selectSignUpUser(userVO);
+		Iterator<UserVO> it = possible.iterator();
+		if (!it.hasNext()) {
+			System.out.println("회원가입 가능 아이디");
+			if (signup_service.insertSignUpUser(userVO)) {
+				System.out.println("회원가입 성공");
+				return "login";
+			}
+		}
+		return "redirect:/register";
+	}
+	
+	@RequestMapping(value = "/forgotProcess", method = RequestMethod.GET)
+	public String forgotProcess(HttpServletRequest request, HttpSession session, Model model) throws Exception {
+
+		if (request.getParameter("user_id") == null || request.getParameter("user_email") == null) {
+			return "redirect:/forgot_password";
+		}
+		UserVO userVO = new UserVO();
+		String user_id = request.getParameter("user_id");
+		String user_email = request.getParameter("user_email");
+		
+		userVO.setUser_email(user_email);
+		userVO.setUser_id(user_id);
+		userVO.setUser_pw("1234");
+		if(user_service.select_forgot_user(userVO) != null) {
+			if(user_service.update_user_pw(userVO)) {
+				System.out.println("초기화 완료");
+				return "login";
+			}			
+		}
+		return "redirect:/forgot_password";
 	}
 }

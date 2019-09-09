@@ -40,6 +40,12 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
     }
+    
+    //암호 초기화 가능 사용자 확인
+    @Override
+    public UserVO select_forgot_user(UserVO userVO) throws Exception {
+    	return dao.select_forgot_user(userVO);
+    }
  
 }
 

@@ -13,5 +13,8 @@ public interface UserService {
     
     //비밀번호 변경
     public boolean update_user_pw(UserVO userVO) throws Exception;
+    
+    //암호 초기화 가능 사용자 확인
+    public UserVO select_forgot_user(UserVO userVO) throws Exception;
 }
 

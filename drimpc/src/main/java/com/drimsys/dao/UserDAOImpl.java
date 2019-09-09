@@ -88,4 +88,10 @@ public class UserDAOImpl implements UserDAO {
 	public int update_user_pw(UserVO userVO) throws Exception {
 		return sqlSession.update("com.drimsys.mapper.userMapper.update_user_pw",userVO);
 	}
+	
+    //암호 초기화 가능 사용자 확인
+	@Override
+	public UserVO select_forgot_user(UserVO userVO) throws Exception {
+		return sqlSession.selectOne("com.drimsys.mapper.userMapper.select_forgot_user",userVO);
+	}
 }

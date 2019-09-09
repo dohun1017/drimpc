@@ -54,7 +54,9 @@
 				</form>
 
 				<div class="text-center">
-					<a class="d-block small mt-3" href="register.html">회원 가입</a> 
+					<a class="d-block small mt-3" href="register">회원 가입</a>
+		  	        <a class="d-block small" href="forgot_password">암호 분실</a> 
+					<a class="d-block small" href="time_add">시간 추가</a> 
 				</div>
 			</div>
 		</div>

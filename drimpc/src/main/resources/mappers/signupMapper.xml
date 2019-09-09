@@ -14,7 +14,7 @@
 	
 	<select id="insertSignUpUser">
 		INSERT INTO user(user_name, user_id, user_pw, user_time, user_using, user_email)
-		VALUES('${user_name}','${user_id}','${user_pw}',${user_time},${user_using},'${user_email}')
+		VALUES('${user_name}','${user_id}','${user_pw}', 0, 0,'${user_email}')
 	</select>
 
 </mapper>

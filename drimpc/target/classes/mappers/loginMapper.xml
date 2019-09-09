@@ -7,7 +7,7 @@
 
 
 	<select id="selectUserUsing" resultType="UserVO">
-		SELECT user_using, user_id
+		SELECT user_using, user_id, user_time
 		FROM user
 		WHERE user_id = '${user_id}' AND user_pw = '${user_pw}'
 	</select>

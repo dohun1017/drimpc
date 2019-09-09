@@ -30,4 +30,11 @@ public interface ProductDAO {
 	
 	//구매 가능 상품 조회
 	public List<ProductVO> select_Product_available() throws Exception;
+	
+	//관리자 상품 체크
+	public ProductVO select_admin_check(ProductVO productVO) throws Exception;
+	
+	//상품 변경
+	public int update_admin_product(ProductVO productVO) throws Exception;
 }
+

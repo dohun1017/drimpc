@@ -83,4 +83,20 @@ public class ProductDAOImpl implements ProductDAO {
 	public List<ProductVO> select_Product_available() throws Exception {
 		return sqlSession.selectList("com.drimsys.mapper.productMapper.select_Product_available");
 	}
+	
+	//관리자 상품 체크
+	@Override
+	public ProductVO select_admin_check(ProductVO productVO) throws Exception {
+		return sqlSession.selectOne("com.drimsys.mapper.productMapper.select_admin_check",productVO);
+	}
+	
+	//관리자 상품 변경
+	@Override
+	public int update_admin_product(ProductVO productVO) throws Exception {
+		try {
+			return sqlSession.update("com.drimsys.mapper.productMapper.update_admin_product",productVO);
+		}catch (Exception e) {
+			return -1;
+		}
+	}
 }

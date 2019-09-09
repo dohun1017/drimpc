@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin - Tables</title>
+<title>시간 추가</title>
 
 <!-- Custom fonts for this template-->
 <link href="../drimpc/resources/vendor/fontawesome-free/css/all.min.css"
@@ -31,7 +31,7 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
-	
+
 </head>
 
 <body id="page-top">
@@ -45,52 +45,12 @@
 			<i class="fas fa-bars"></i>
 		</button>
 
-		<!-- Navbar Search -->
-		<form
-			class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search for..."
-					aria-label="Search" aria-describedby="basic-addon2">
-				<div class="input-group-append">
-					<button class="btn btn-primary" type="button">
-						<i class="fas fa-search"></i>
-					</button>
-				</div>
-			</div>
-		</form>
-
 		<!-- Navbar -->
 		<ul class="navbar-nav ml-auto ml-md-0">
-			<li class="nav-item dropdown no-arrow mx-1"><a
-				class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
-				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> <i class="fas fa-bell fa-fw"></i> <span
-					class="badge badge-danger">9+</span>
-			</a>
-				<div class="dropdown-menu dropdown-menu-right"
-					aria-labelledby="alertsDropdown">
-					<a class="dropdown-item" href="#">Action</a> <a
-						class="dropdown-item" href="#">Another action</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#">Something else here</a>
-				</div></li>
-			<li class="nav-item dropdown no-arrow mx-1"><a
-				class="nav-link dropdown-toggle" href="#" id="messagesDropdown"
-				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> <i class="fas fa-envelope fa-fw"></i> <span
-					class="badge badge-danger">7</span>
-			</a>
-				<div class="dropdown-menu dropdown-menu-right"
-					aria-labelledby="messagesDropdown">
-					<a class="dropdown-item" href="#">Action</a> <a
-						class="dropdown-item" href="#">Another action</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#">Something else here</a>
-				</div></li>
 			<li class="nav-item dropdown no-arrow"><a
 				class="nav-link dropdown-toggle" href="#" id="userDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false"> <i class="fas fa-user-circle fa-fw"></i>
+				aria-expanded="false" > <i class="fas fa-user-circle fa-fw"></i>
 			</a>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="userDropdown">
@@ -130,11 +90,10 @@
 					<div class="card-body">
 						<div class="table-responsive">
 
-
-							<div class="container">
-								<div class="card card-login mx-auto mt-5">
-									<div class="card-body">
-										<form action="order_time_Process" method="get">
+							<form action="order_time_Process" method="get">
+								<div class="container">
+									<div class="card card-login mx-auto mt-5">
+										<div class="card-body">
 											<div class="form-group">
 												<div class="form-label-group">
 													<input type="text" name="user_id" class="form-control"
@@ -143,39 +102,41 @@
 											</div>
 											<div class="form-group">
 												<div class="form-label-group">
-														<input type="number" name="user_time" class="form-control"
-														required="required" min = 0 value = 0 autofocus="autofocus"> <label>시간입력</label>
-													</div>
+													<input type="number" name="user_time" class="form-control"
+														required="required" min=0 value=0 autofocus="autofocus">
+													<label>시간입력</label>
 												</div>
 											</div>
-											<button type="submit" id="loginBtn"
-												class="btn btn-primary btn-block">시간 추가</button>
-										</form>
-										<p></p><p></p>
+										</div>
+										<button type="submit" id="loginBtn"
+											class="btn btn-primary btn-block">시간 추가</button>
+										<p></p>
+										<p></p>
 									</div>
 								</div>
-							</div>
-
-
+							</form>
 						</div>
+
+
 					</div>
 				</div>
-
-
 			</div>
-			<!-- /.container-fluid -->
 
-			<!-- Sticky Footer -->
-			<footer class="sticky-footer">
-				<div class="container my-auto">
-					<div class="copyright text-center my-auto">
-						<span>Copyright © Drim PC</span>
-					</div>
-				</div>
-			</footer>
 
 		</div>
-		<!-- /.content-wrapper -->
+		<!-- /.container-fluid -->
+
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer">
+			<div class="container my-auto">
+				<div class="copyright text-center my-auto">
+					<span>Copyright © Drim PC</span>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+	<!-- /.content-wrapper -->
 
 	</div>
 	<!-- /#wrapper -->
@@ -218,8 +179,6 @@
 
 	<!-- Page level plugin JavaScript-->
 	<script
-		src="../drimpc/resources/vendor/datatables/jquery.dataTables.js"></script>
-	<script
 		src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
 
 	<!-- Custom scripts for all pages-->
@@ -228,10 +187,6 @@
 	<!-- Demo scripts for this page-->
 	<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
 
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-		crossorigin="anonymous"></script>
 
 </body>
 

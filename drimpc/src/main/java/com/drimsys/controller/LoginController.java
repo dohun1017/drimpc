@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,9 @@ import com.drimsys.service.inf.*;
 
 @Controller
 public class LoginController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	
 	@Inject
 	LoginService login_service;
 
@@ -35,15 +40,11 @@ public class LoginController {
 	@RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
 	public String loginProcess(HttpServletRequest request, HttpSession session, Model model, UserVO userVO)
 			throws Exception {
-
+		
 		String returnURL = "/login";
 		Calendar time = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-		if (session.getAttribute("login") != null) {
-			// 기존에 login이란 세션 값이 존재한다면
-			session.removeAttribute("login"); // 기존값을 제거해 준다.
-		}
 		String user_id = request.getParameter("user_id");
 		String user_pw = request.getParameter("user_pw");
 //			int computer_id = request.getParameter("computer_id");
@@ -54,7 +55,7 @@ public class LoginController {
 		userVO.setUser_pw(user_pw);
 
 		userVO = login_service.selectUserUsing(userVO);
-		if (userVO != null && userVO.getUser_using() == 0) {
+		if (userVO != null && userVO.getUser_using() == 0 && userVO.getUser_time() != 0) {
 			ComputerVO computerVO = new ComputerVO();
 			computerVO.setComputer_id(computer_id);
 			computerVO = login_service.selectComputerUsing(computerVO);
@@ -67,7 +68,6 @@ public class LoginController {
 					ucVO.setStart(start);
 					ucVO.setEnd(start);
 					if (login_service.insertLoginUser_Computer(ucVO)) {
-						session.setAttribute("login", userVO);
 						if (userVO.getUser_id().equals("admin"))
 							returnURL = "redirect:/admin_product";
 						else
