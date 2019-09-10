@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>관리자 - 매출 확인(상품)</title>
+<title>관리자 - 매출 확인(날짜)</title>
 
 <!-- Custom fonts for this template-->
 <link href="../drimpc/resources/vendor/fontawesome-free/css/all.min.css"
@@ -50,7 +50,7 @@
 			<li class="nav-item dropdown no-arrow"><a
 				class="nav-link dropdown-toggle" href="#" id="userDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false" > <i class="fas fa-user-circle fa-fw"></i>
+				aria-expanded="false"> <i class="fas fa-user-circle fa-fw"></i>
 			</a>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="userDropdown">
@@ -65,7 +65,7 @@
 		<!-- 사이드바 -->
 		<ul class="sidebar navbar-nav">
 			<li class="nav-item active"><a class="nav-link"> <i
-					class="fas fa-fw fa-table"></i> <span>매출확인 - 상품</span></a></li>
+					class="fas fa-fw fa-table"></i> <span>매출확인 - 날짜</span></a></li>
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -74,8 +74,8 @@
 			</a>
 				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 					<h6 class="dropdown-header">상품 관리</h6>
-					<a class="dropdown-item" href="admin_product">상품 관리</a>
-					<a class="dropdown-item" href="admin_add_product">상품 추가</a>
+					<a class="dropdown-item" href="admin_product">상품 관리</a> <a
+						class="dropdown-item" href="admin_add_product">상품 추가</a>
 					<div class="dropdown-divider"></div>
 					<h6 class="dropdown-header">매출 확인</h6>
 					<a class="dropdown-item" href="admin_sales_user">회원별</a> <a
@@ -102,38 +102,38 @@
 				<!-- 테이블 표시 -->
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> 매출확인 - 상품
+						<i class="fas fa-table"></i> 매출 확인 - 날짜
 					</div>
+					<form action="salesDateProcess" method="GET">
 					<div class="card-body">
 						<div class="table-responsive">
 							<table class="table table-bordered" id="dataTable" width="100%"
 								cellspacing="0">
 								<thead>
 									<tr>
-										<th>상품 명</th>
-										<th>상품 수량</th>
-										<th>상품 가격</th>
+										<th>기간</th>
+										<th>금액</th>
 									</tr>
 								</thead>
-								<tfoot>
-									<tr>
-										<th>상품 명</th>
-										<th>상품 수량</th>
-										<th>상품 가격</th>
-									</tr>
-								</tfoot>
 								<tbody>
-									<c:forEach items="${productList}" var="salesProduct">
-										<tr>
-											<td>${salesProduct.product_name}&nbsp;</td>
-											<td>${salesProduct.join_product_all_quantity}&nbsp;</td>
-											<td>${salesProduct.join_product_all_price}&nbsp;</td>
-										</tr>
-									</c:forEach>
+									<tr>
+										<td>${sales_date.start_date} ~ ${sales_date.end_date}</td>
+										<td>${sales_date.join_date_price}</td>
+									</tr>
+									<tr>
+										<td><input type="number" class="form-control" min = 2010 name = "year" placeholder="년도 입력"></td>
+										<td><input type="number" class="form-control" min = 0 max = 12 name = "month" placeholder="월 입력"></td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
+						<p></p>
+						<p></p>
+						<div align="right">
+							<button type="submit" id="dateBtn" class="btn btn-primary">조회하기</button>
+						</div>
 					</div>
+					</form>
 					<div class="card-footer small text-muted">Updated at ${now_date}</div>
 				</div>
 
@@ -144,7 +144,7 @@
 			<footer class="sticky-footer">
 				<div class="container my-auto">
 					<div class="copyright text-center my-auto">
-						<span>Copyright © Drim PC</span>
+						<span>Copyright © Your Website 2019</span>
 					</div>
 				</div>
 			</footer>

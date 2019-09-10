@@ -39,6 +39,11 @@ public class UserController {
 	@RequestMapping(value = "/user_main", method = RequestMethod.GET)
 	public String user_main(Locale locale, Model model) throws Exception {
 
+		Calendar time = Calendar.getInstance();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String date = format.format(time.getTime());
+		model.addAttribute("now_date",date);
+		
 		List<ProductVO> productList = product_service.select_Product_available();
 		model.addAttribute("productList", productList);
 		return "user_main";
@@ -130,6 +135,9 @@ public class UserController {
 
 		userVO.setUser_id(user_id);
 		userVO.setUser_select_quantity(user_time);
+		if(user_id.equals("admin"))
+			if(order_service.updateUserTime(userVO))
+				return "login";
 		if (order_service.updateUserTime(userVO)) {
 			productVO.setProduct_id("시간");
 			productVO.setProduct_name("시간");

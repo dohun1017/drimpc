@@ -76,6 +76,7 @@
 				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 					<h6 class="dropdown-header">상품 관리</h6>
 					<a class="dropdown-item" href="admin_product">상품 관리</a>
+					<a class="dropdown-item" href="admin_add_product">상품 추가</a>
 					<div class="dropdown-divider"></div>
 					<h6 class="dropdown-header">매출 확인</h6>
 					<a class="dropdown-item" href="admin_sales_user">회원별</a> <a
@@ -140,13 +141,8 @@
 							</table>
 						</div>
 					</div>
-					<div class="card-footer small text-muted">Updated yesterday
-						at 11:59 PM</div>
+					<div class="card-footer small text-muted">Updated at ${now_date}</div>
 				</div>
-
-				<p class="small text-center text-muted my-5">
-					<em>More table examples coming soon...</em>
-				</p>
 
 			</div>
 			<!-- /.container-fluid -->
@@ -155,7 +151,7 @@
 			<footer class="sticky-footer">
 				<div class="container my-auto">
 					<div class="copyright text-center my-auto">
-						<span>Copyright © Your Website 2019</span>
+						<span>Copyright © Drim PC</span>
 					</div>
 				</div>
 			</footer>

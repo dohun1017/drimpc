@@ -6,6 +6,9 @@ public class User_ProductVO {
 	private String product_id;
 	private int product_quantity;
 	private String date;
+	private String min_date;
+	private String max_date;
+	
 	public String getUser_id() {
 		return user_id;
 	}
@@ -30,6 +33,19 @@ public class User_ProductVO {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	public String getMin_date() {
+		return min_date;
+	}
+	public void setMin_date(String min_date) {
+		this.min_date = min_date;
+	}
+	public String getMax_date() {
+		return max_date;
+	}
+	public void setMax_date(String max_date) {
+		this.max_date = max_date;
+	}
+	
 	
 }
 

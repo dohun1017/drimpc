@@ -2,6 +2,8 @@
 <%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ page import="java.util.*"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +14,11 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
+<script type="text/javascript">
+	
+</script>
 
-<title>관리자 - 매출 확인(상품)</title>
+<title>관리자 상품추가</title>
 
 <!-- Custom fonts for this template-->
 <link href="../drimpc/resources/vendor/fontawesome-free/css/all.min.css"
@@ -50,7 +55,7 @@
 			<li class="nav-item dropdown no-arrow"><a
 				class="nav-link dropdown-toggle" href="#" id="userDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false" > <i class="fas fa-user-circle fa-fw"></i>
+				aria-expanded="false"> <i class="fas fa-user-circle fa-fw"></i>
 			</a>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="userDropdown">
@@ -60,12 +65,14 @@
 		</ul>
 
 	</nav>
+
 	<div id="wrapper">
 
 		<!-- 사이드바 -->
 		<ul class="sidebar navbar-nav">
 			<li class="nav-item active"><a class="nav-link"> <i
-					class="fas fa-fw fa-table"></i> <span>매출확인 - 상품</span></a></li>
+					class="fas fa-fw fa-table"></i> <span id="사이드바"
+					onclick="focusblur()">상품 추가</span></a></li>
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -102,65 +109,94 @@
 				<!-- 테이블 표시 -->
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> 매출확인 - 상품
+						<i class="fas fa-table"></i> 상품 추가
 					</div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table table-bordered" id="dataTable" width="100%"
-								cellspacing="0">
-								<thead>
-									<tr>
-										<th>상품 명</th>
-										<th>상품 수량</th>
-										<th>상품 가격</th>
-									</tr>
-								</thead>
-								<tfoot>
-									<tr>
-										<th>상품 명</th>
-										<th>상품 수량</th>
-										<th>상품 가격</th>
-									</tr>
-								</tfoot>
-								<tbody>
-									<c:forEach items="${productList}" var="salesProduct">
+					<form action="productAddProcess" method="GET">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%"
+									cellspacing="0">
+									<thead>
 										<tr>
-											<td>${salesProduct.product_name}&nbsp;</td>
-											<td>${salesProduct.join_product_all_quantity}&nbsp;</td>
-											<td>${salesProduct.join_product_all_price}&nbsp;</td>
+											<th>상품ID</th>
+											<th>상품명</th>
+											<th>가격</th>
+											<th>수량</th>
+											<th>판매여부</th>
 										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>상품ID</th>
+											<th>상품명</th>
+											<th>가격</th>
+											<th>수량</th>
+											<th>판매여부</th>
+										</tr>
+									</tfoot>
+									<tbody>
+										<%
+											int i = 0;
+											String p_id = "";
+											String p_name = "";
+											String p_price = "";
+											String p_tot = "";
+											String p_available = "";
+										%>
+										<%
+											for(;i<5;i++){
+											p_id = "p_id" + Integer.toString(i);
+												p_name = "p_name" + Integer.toString(i);
+												p_price = "p_price" + Integer.toString(i);
+												p_tot = "p_tot" + Integer.toString(i);
+												p_available = "p_available" + Integer.toString(i);
+												%>
+											<tr>
+												<td><input type="text" name=<%=p_id%> placeholder="예시)과자_1 / 라면_1"></td>
+												<td><input type="text" name=<%=p_name%> placeholder="예시)포카칩 / 신라면"></td>
+												<td><input type="number" name=<%=p_price%> min = 0 placeholder="예시)1500 / 2500"></td>
+												<td><input type="number" name=<%=p_tot%> min = 0 placeholder="예시)10 / 0"></td>
+												<td><input type="text" name=<%=p_available%> placeholder="예시)판매중 / 판매중지"></td>
+											</tr>
+											<% } %>
+									</tbody>
+								</table>
+							</div>
+							<p></p>
+							<p></p>
+							<div align="right">
+								<button type="submit" id="addBtn" class="btn btn-primary">추가하기</button>
+							</div>
 						</div>
-					</div>
+					</form>	
+
 					<div class="card-footer small text-muted">Updated at ${now_date}</div>
 				</div>
-
 			</div>
-			<!-- /.container-fluid -->
 
-			<!-- Sticky Footer -->
-			<footer class="sticky-footer">
-				<div class="container my-auto">
-					<div class="copyright text-center my-auto">
-						<span>Copyright © Drim PC</span>
-					</div>
-				</div>
-			</footer>
 
 		</div>
-		<!-- /.content-wrapper -->
+		<!-- /.container-fluid -->
+
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer">
+			<div class="container my-auto">
+				<div class="copyright text-center my-auto">
+					<span>Copyright © Drim PC</span>
+				</div>
+			</div>
+		</footer>
 
 	</div>
-	<!-- /#wrapper -->
+	<!-- /.content-wrapper -->
+
 
 	<!-- Scroll to Top Button-->
 	<a class="scroll-to-top rounded" href="#page-top"> <i
 		class="fas fa-angle-up"></i>
 	</a>
 
-	<!-- Logout Modal-->
+	<!-- Logout Modal -->
 	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -200,7 +236,6 @@
 
 	<!-- Demo scripts for this page-->
 	<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
-
 </body>
 
 </html>

@@ -55,7 +55,7 @@ public class LoginController {
 		userVO.setUser_pw(user_pw);
 
 		userVO = login_service.selectUserUsing(userVO);
-		if (userVO != null && userVO.getUser_using() == 0 && userVO.getUser_time() != 0) {
+		if (userVO != null && userVO.getUser_using() == 0 && (userVO.getUser_time() != 0 || userVO.getUser_id().equals("admin"))) {
 			ComputerVO computerVO = new ComputerVO();
 			computerVO.setComputer_id(computer_id);
 			computerVO = login_service.selectComputerUsing(computerVO);

@@ -33,4 +33,10 @@ public class User_ProductDAOImpl implements User_ProductDAO {
 			return -1;
 		}
 	}
+	
+	//상품조회 관련(전체)
+	@Override
+	public User_ProductVO select_salesAll() throws Exception {
+		return sqlSession.selectOne("com.drimsys.mapper.salesMapper.select_salesAll");
+	}
 }
