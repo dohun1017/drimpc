@@ -15,6 +15,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <script type="text/javascript">
+	setTimeout("location.reload()",6000)
 </script>
 <title>사용자 - 주문</title>
 
@@ -53,7 +54,7 @@
 			<li class="nav-item dropdown no-arrow"><a
 				class="nav-link dropdown-toggle" href="#" id="userDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false" > <i class="fas fa-user-circle fa-fw"></i>
+				aria-expanded="false"> <i class="fas fa-user-circle fa-fw"></i>
 			</a>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="userDropdown">
@@ -71,6 +72,9 @@
 			<li class="nav-item active"><a class="nav-link" href="user_main">
 					<i class="fas fa-fw fa-table"></i> <span>상품 주문</span>
 			</a></li>
+			<li class="nav-item active"><a class="nav-link"
+				href="time_add"> <i class="fas fa-fw fa-table"></i> <span>시간 추가</span></a>
+			</li>
 		</ul>
 
 		<div id="content-wrapper">
@@ -86,6 +90,9 @@
 				<div class="card mb-3">
 					<div class="card-header">
 						<i class="fas fa-table"></i> 상품 목록
+					</div>
+					<div class="card-header">
+						<i class="fas fa-table"></i> 남은 시간 : ${user_time}분
 					</div>
 					<form action="orderProcess" method="get">
 						<div class="card-body">
@@ -120,24 +127,27 @@
 											i++;
 											%>
 											<tr>
-												<td>${product.product_name}
-													<input type="hidden" name = <%=p_name%> value = "${product.product_name}">
+												<td>${product.product_name}<input type="hidden"
+													name=<%=p_name%> value="${product.product_name}">
 												</td>
 												<td>${product.product_price}</td>
-												<td><input type="number" class="form-control" name = <%=p_num%>
-													placeholder="수량입력" value = 0 min = 0></td>
-													
+												<td><input type="number" class="form-control"
+													name=<%=p_num%> placeholder="수량입력" value=0 min=0></td>
+
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
 							</div>
 							<div align="right">
+								<input type="hidden" name="user_id"
+									value="${login_status.user_id}">
 								<button type="submit" id="orderBtn" class="btn btn-primary">주문하기</button>
 							</div>
 					</form>
 				</div>
-				<div class="card-footer small text-muted">Updated at ${now_date}</div>
+				<div class="card-footer small text-muted">Updated at
+					${now_date}</div>
 			</div>
 
 
@@ -180,7 +190,7 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">취소</button>
-					<a class="btn btn-primary" href="login">확인</a>
+					<a class="btn btn-primary" href="user_logoutProcess">확인</a>
 				</div>
 			</div>
 		</div>

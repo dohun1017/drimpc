@@ -10,6 +10,9 @@ public interface User_ComputerDAO {
     
     //로그인 관련
     public int insertLoginUser_Computer(User_ComputerVO ucVO) throws Exception;
+    
+    //로그아웃 관련
+    public int updateUser_Computer(User_ComputerVO ucVO) throws Exception;
 }
 
 

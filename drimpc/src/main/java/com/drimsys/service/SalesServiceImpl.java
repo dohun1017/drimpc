@@ -43,4 +43,9 @@ public class SalesServiceImpl implements SalesService{
 	public User_ProductVO select_salesAll() throws Exception {
 		return up_dao.select_salesAll();
 	}
+	
+	@Override
+	public List<ProductVO> batchProduct(ProductVO productVO) throws Exception {
+		return product_dao.batchProduct(productVO);
+	}
 }

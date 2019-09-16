@@ -42,21 +42,40 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	// 컴퓨터 활성화, 비활성화 관련
 	@Override
-	public int updateComputer_status(ComputerVO computerVO) throws Exception {
+	public int updateComputer_status_t(ComputerVO computerVO) throws Exception {
 		try {
-			return sqlSession.update("com.drimsys.mapper.computerMapper.updateComputer_status", computerVO);
+			return sqlSession.update("com.drimsys.mapper.computerMapper.updateComputer_status_t", computerVO);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
 		}
 	}
-
+	@Override
+	public int updateComputer_status_f(ComputerVO computerVO) throws Exception {
+		try {
+			return sqlSession.update("com.drimsys.mapper.computerMapper.updateComputer_status_f", computerVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
 	// 좌석 추가
 	@Override
 	public int insertComputer(ComputerVO computerVO) throws Exception {
 		try {
 			return sqlSession.insert("com.drimsys.mapper.computerMapper.insertComputer", computerVO);
 		}catch (Exception e) {
+			return -1;
+		}
+	}
+	
+	@Override
+	public int logoutComputer(ComputerVO computerVO) throws Exception {
+		try {
+			return sqlSession.update("com.drimsys.mapper.loginMapper.logoutComputer", computerVO);
+		} catch (Exception e) {
+			e.printStackTrace();
 			return -1;
 		}
 	}

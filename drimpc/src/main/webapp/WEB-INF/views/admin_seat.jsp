@@ -50,7 +50,7 @@
 			<li class="nav-item dropdown no-arrow"><a
 				class="nav-link dropdown-toggle" href="#" id="userDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
-				aria-expanded="false" > <i class="fas fa-user-circle fa-fw"></i>
+				aria-expanded="false"> <i class="fas fa-user-circle fa-fw"></i>
 			</a>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="userDropdown">
@@ -75,8 +75,8 @@
 			</a>
 				<div class="dropdown-menu" aria-labelledby="pagesDropdown">
 					<h6 class="dropdown-header">상품 관리</h6>
-					<a class="dropdown-item" href="admin_product">상품 관리</a>
-					<a class="dropdown-item" href="admin_add_product">상품 추가</a>
+					<a class="dropdown-item" href="admin_product">상품 관리</a> <a
+						class="dropdown-item" href="admin_add_product">상품 추가</a>
 					<div class="dropdown-divider"></div>
 					<h6 class="dropdown-header">매출 확인</h6>
 					<a class="dropdown-item" href="admin_sales_user">회원별</a> <a
@@ -86,8 +86,8 @@
 					<h6 class="dropdown-header">좌석 관리</h6>
 					<a class="dropdown-item" href="admin_seat">좌석 관리</a>
 					<div class="dropdown-divider"></div>
-					<h6 class="dropdown-header">회원 관리</h6>
-					<a class="dropdown-item" href="admin_user">회원 관리</a>
+					<h6 class="dropdown-header">회원 조회</h6>
+					<a class="dropdown-item" href="admin_user">회원 조회</a>
 				</div></li>
 		</ul>
 
@@ -103,53 +103,77 @@
 				<!-- 테이블 표시 -->
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> 상품 관리
+						<i class="fas fa-table"></i> 좌석 관리
 					</div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table table-bordered" id="dataTable" width="100%"
-								cellspacing="0">
-								<thead>
-									<tr>
-										<th>아이디</th>
-										<th>사용여부</th>
-										<th>고장여부</th>
-									</tr>
-								</thead>
-								<tfoot>
-									<tr>
-										<th>아이디</th>
-										<th>사용여부</th>
-										<th>고장여부</th>
-									</tr>
-								</tfoot>
-								<tbody>
-									<c:forEach items="${computerList}" var="computer">
+					<form action="seatEditProcess" method="GET">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%"
+									cellspacing="0">
+									<thead>
 										<tr>
-											<td>${computer.computer_id}&nbsp;</td>
-											<c:choose>
-												<c:when test='${computer.computer_using == 0}'>
-													<td>사용가능&nbsp;</td>
-												</c:when>
-												<c:when test='${computer.computer_using == 1}'>
-													<td>사용중&nbsp;</td>
-												</c:when>
-											</c:choose>
-											<c:choose>
-												<c:when test='${computer.computer_status == 1}'>
-													<td>정상&nbsp;</td>
-												</c:when>
-												<c:when test='${computer.computer_status == 0}'>
-													<td>고장&nbsp;</td>
-												</c:when>
-											</c:choose>
+											<th>아이디</th>
+											<th>사용여부</th>
+											<th>고장여부</th>
 										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>아이디</th>
+											<th>사용여부</th>
+											<th>고장여부</th>
+										</tr>
+									</tfoot>
+									<tbody>
+										<%
+											int i = 0;
+											String c_id = "";
+											String c_status = "";
+										%>
+										<c:forEach items="${computerList}" var="computer">
+											<%
+												c_id = "c_id" + Integer.toString(i);
+												c_status = "c_status" + Integer.toString(i);
+												i++;
+											%>
+											<tr>
+												<td>${computer.computer_id}<input type="hidden"
+													name=<%=c_id%> value="${computer.computer_id}"></td>
+												<c:choose>
+													<c:when test='${computer.computer_using == 0}'>
+														<td>사용가능&nbsp;</td>
+													</c:when>
+													<c:when test='${computer.computer_using == 1}'>
+														<td>사용중&nbsp;</td>
+													</c:when>
+												</c:choose>
+												<c:choose>
+													<c:when test='${computer.computer_status == 1}'>
+														<td><input type="text" class="form-control"
+															name=<%=c_status%> placeholder="상태입력(정상, 고장)"
+															required="required" value="정상"></td>
+													</c:when>
+													<c:when test='${computer.computer_status == 0}'>
+														<td><input type="text" class="form-control"
+															name=<%=c_status%> placeholder="상태입력(정상, 고장)"
+															required="required" value="고장"></td>
+													</c:when>
+												</c:choose>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+							<p></p>
+							<p></p>
+							<div align="right">
+								<button type="submit" id="editBtn" class="btn btn-primary">변경하기</button>
+							</div>
 						</div>
-					</div>
-					<div class="card-footer small text-muted">Updated at ${now_date}</div>
+					</form>
+
+					<div class="card-footer small text-muted">Updated at
+						${now_date}</div>
 				</div>
 
 
@@ -192,7 +216,7 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">취소</button>
-					<a class="btn btn-primary" href="login">확인</a>
+					<a class="btn btn-primary" href="logoutProcess">확인</a>
 				</div>
 			</div>
 		</div>

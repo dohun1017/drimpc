@@ -60,6 +60,7 @@
 					<a class="d-block small mt-3" href="register">회원가입</a> 
 					<a class="d-block small" href="login">로그인 페이지</a> 
 					<a class="d-block small" href="forgot_password">암호 분실</a>
+					<a class="d-block small" href="user_main">메인 화면으로 돌아가기</a>
 				</div>
 			</div>
 		</div>

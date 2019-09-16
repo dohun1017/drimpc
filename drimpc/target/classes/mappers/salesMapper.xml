@@ -45,6 +45,7 @@
 			<id column="product_id" property="product_id"/>
 			<id column="user_id" property="user_id"/>
 			<id column="date" property="date"/>
+			<id column="product_quantity" property="product_quantity"/>
 		</collection>
 	</resultMap>
 	<select id="salesProduct" resultType="ProductVO" resultMap = "salesProductMap">
@@ -53,6 +54,14 @@
 		GROUP BY product_name
 	</select>
 	
+	<!-- 배치 sql -->
+	<select id="batchProduct" resultType="ProductVO" resultMap = "salesProductMap">
+		<![CDATA[
+		SELECT product_name, product_quantity, date 
+		FROM user_product NATURAL JOIN product 
+		WHERE date >= '${start_date}' AND date < '${end_date}'
+		]]>
+	</select>
 <!-- 년도별 판매액 -->	
 	<resultMap type="ProductVO" id="salesDateMap">
 		<id column="product_id" property="product_id" />

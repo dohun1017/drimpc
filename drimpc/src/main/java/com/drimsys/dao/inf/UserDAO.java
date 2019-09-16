@@ -32,6 +32,12 @@ public interface UserDAO {
     
     //암호 초기화 가능 사용자 확인
     public UserVO select_forgot_user(UserVO userVO) throws Exception;
+    
+    //로그아웃 관련
+    public int logoutUser(UserVO userVO) throws Exception;
+    
+    //사용사 시간 업데이트
+    public int updateUser_time(UserVO userVO) throws Exception;
 }
 
 

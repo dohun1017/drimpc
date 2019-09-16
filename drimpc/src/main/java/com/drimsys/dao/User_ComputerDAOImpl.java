@@ -37,5 +37,14 @@ public class User_ComputerDAOImpl implements User_ComputerDAO {
 		}
 
 	}
-
+	
+	//로그아웃 관련
+	@Override
+	public int updateUser_Computer(User_ComputerVO ucVO) throws Exception {
+		try {
+			return sqlSession.update("com.drimsys.mapper.loginMapper.updateUser_Computer",ucVO);
+		}catch (Exception e) {
+			return -1;
+		}
+	}
 }

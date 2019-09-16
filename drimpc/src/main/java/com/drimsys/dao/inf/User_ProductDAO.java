@@ -13,6 +13,8 @@ public interface User_ProductDAO {
     
     //상품조회 관련(전체)
     public User_ProductVO select_salesAll() throws Exception;
+    
+    //
 }
 
 

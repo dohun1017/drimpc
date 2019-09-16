@@ -94,4 +94,24 @@ public class UserDAOImpl implements UserDAO {
 	public UserVO select_forgot_user(UserVO userVO) throws Exception {
 		return sqlSession.selectOne("com.drimsys.mapper.userMapper.select_forgot_user",userVO);
 	}
+	
+	//로그아웃 관련
+	@Override
+	public int logoutUser(UserVO userVO) throws Exception {
+		try {
+			return sqlSession.update("com.drimsys.mapper.loginMapper.logoutUser", userVO);
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+	
+	//사용자 시간 업데이트
+	@Override
+	public int updateUser_time(UserVO userVO) throws Exception {
+		try {
+			return sqlSession.update("com.drimsys.mapper.loginMapper.updateUser_time", userVO);
+		} catch (Exception e) {
+			return -1;
+		}
+	}
 }

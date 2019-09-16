@@ -15,4 +15,12 @@ public interface LoginService {
 	public boolean updateComputerUsing(ComputerVO computerVO) throws Exception;
 	
 	public boolean insertLoginUser_Computer(User_ComputerVO ucVO) throws Exception;
+	
+	public boolean updateUser_Computer(User_ComputerVO ucVO) throws Exception;
+	
+	public boolean logoutUser(UserVO userVO) throws Exception;
+	
+	public boolean logoutComputer(ComputerVO computerVO) throws Exception;
+	
+	public boolean updateUser_time(UserVO userVO) throws Exception;
 }

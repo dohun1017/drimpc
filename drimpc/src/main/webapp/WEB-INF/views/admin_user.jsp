@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>관리자 - 회원 관리</title>
+<title>관리자 - 회원 조회</title>
 
 <!-- Custom fonts for this template-->
 <link href="../drimpc/resources/vendor/fontawesome-free/css/all.min.css"
@@ -66,7 +66,7 @@
 		<!-- 사이드바 -->
 		<ul class="sidebar navbar-nav">
 			<li class="nav-item active"><a class="nav-link"> <i
-					class="fas fa-fw fa-table"></i> <span>회원 관리</span></a></li>
+					class="fas fa-fw fa-table"></i> <span>회원 조회</span></a></li>
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
 				role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -86,8 +86,8 @@
 					<h6 class="dropdown-header">좌석 관리</h6>
 					<a class="dropdown-item" href="admin_seat">좌석 관리</a>
 					<div class="dropdown-divider"></div>
-					<h6 class="dropdown-header">회원 관리</h6>
-					<a class="dropdown-item" href="admin_user">회원 관리</a>
+					<h6 class="dropdown-header">회원 조회</h6>
+					<a class="dropdown-item" href="admin_user">회원 조회</a>
 				</div></li>
 		</ul>
 		<div id="content-wrapper">
@@ -102,7 +102,7 @@
 				<!-- 테이블 표시 -->
 				<div class="card mb-3">
 					<div class="card-header">
-						<i class="fas fa-table"></i> 상품 관리
+						<i class="fas fa-table"></i> 회원 조회
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -177,7 +177,7 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">취소</button>
-					<a class="btn btn-primary" href="login">확인</a>
+					<a class="btn btn-primary" href="logoutProcess">확인</a>
 				</div>
 			</div>
 		</div>

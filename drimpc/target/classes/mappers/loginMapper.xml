@@ -23,13 +23,34 @@
 	</update>
 	
 	<update id = "updateComputerUsing">
-		UPDATE computer SET computer_using = 1 
-		WHERE computer_id = ${computer_id}
+		UPDATE computer
+		SET computer_using = 1
+		WHERE computer_id = ${computer_id};
+	</update>
+	
+	<update id = "logoutComputer">
+		UPDATE computer
+		SET computer_using = 0
+		WHERE computer_id = ${computer_id};
 	</update>
 	
 	<insert id="insertLoginUser_Computer">
 		INSERT INTO user_computer(user_id, computer_id, start, end)
 		VALUES('${user_id}', ${computer_id}, '${start}', '${end}')	
 	</insert>
-
+	
+	<update id = "logoutUser">
+		UPDATE user SET user_using = 0
+		WHERE user_id = '${user_id}'
+	</update>
+	
+	<update id = "updateUser_Computer">
+		UPDATE user_computer SET end = '${end}'
+		WHERE user_id = '${user_id}' AND computer_id = '${computer_id}' AND start = '${start}'
+	</update>
+	
+	<update id = "updateUser_time">
+		UPDATE user SET user_time = ${user_time}
+		WHERE user_id = '${user_id}'
+	</update>
 </mapper>

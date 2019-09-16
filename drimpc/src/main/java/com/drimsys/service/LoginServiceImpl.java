@@ -13,60 +13,111 @@ import com.drimsys.dto.User_ComputerVO;
 import com.drimsys.service.inf.LoginService;
 
 @Service
-public class LoginServiceImpl implements LoginService{
-	
+public class LoginServiceImpl implements LoginService {
+
 	@Inject
 	private UserDAO u_dao;
 	@Inject
 	private ComputerDAO c_dao;
 	@Inject
 	private User_ComputerDAO uc_dao;
-	
+
 	@Override
 	public UserVO selectUserUsing(UserVO userVO) throws Exception {
 		return u_dao.selectUserUsing(userVO);
 	}
-	
+
 	@Override
 	public ComputerVO selectComputerUsing(ComputerVO computerVO) throws Exception {
 		return c_dao.selectComputerUsing(computerVO);
 	}
-	
+
 	@Override
 	public boolean updateUserUsing(UserVO userVO) throws Exception {
 		try {
-			if(u_dao.updateUserUsing(userVO) == 1)
+			if (u_dao.updateUserUsing(userVO) == 1)
 				return true;
 			else
 				return false;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean updateComputerUsing(ComputerVO computerVO) throws Exception {
 		try {
-			if(c_dao.updateComputerUsing(computerVO) == 1)
+			if (c_dao.updateComputerUsing(computerVO) == 1)
 				return true;
 			else
 				return false;
-		}catch (Exception e) {
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean insertLoginUser_Computer(User_ComputerVO ucVO) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			if (uc_dao.insertLoginUser_Computer(ucVO) == 1)
+				return true;
+			else
+				return false;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateUser_Computer(User_ComputerVO ucVO) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			if (uc_dao.updateUser_Computer(ucVO) == 1)
+				return true;
+			else
+				return false;
+		} catch (Exception e) {
+			// TODO: handle exception
 			return false;
 		}
 	}
 	
 	@Override
-	public boolean insertLoginUser_Computer(User_ComputerVO ucVO) throws Exception {
-		// TODO Auto-generated method stub
-    	try {
-    		if(uc_dao.insertLoginUser_Computer(ucVO) == 1)
-    			return true;
-    		else
-    			return false;
-    	}catch (Exception e) {
+	public boolean logoutUser(UserVO userVO) throws Exception {
+		try {
+			if (u_dao.logoutUser(userVO) == 1)
+				return true;
+			else
+				return false;
+		} catch (Exception e) {
 			// TODO: handle exception
-    		return false;
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean logoutComputer(ComputerVO computerVO) throws Exception {
+		try {
+			if (c_dao.logoutComputer(computerVO) == 1)
+				return true;
+			else
+				return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean updateUser_time(UserVO userVO) throws Exception {
+		try {
+			if (u_dao.updateUser_time(userVO) == 1)
+				return true;
+			else
+				return false;
+		} catch (Exception e) {
+			return false;
 		}
 	}
 }

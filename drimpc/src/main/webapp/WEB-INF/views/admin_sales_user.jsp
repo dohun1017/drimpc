@@ -86,8 +86,8 @@
 					<h6 class="dropdown-header">좌석 관리</h6>
 					<a class="dropdown-item" href="admin_seat">좌석 관리</a>
 					<div class="dropdown-divider"></div>
-					<h6 class="dropdown-header">회원 관리</h6>
-					<a class="dropdown-item" href="admin_user">회원 관리</a>
+					<h6 class="dropdown-header">회원 조회</h6>
+					<a class="dropdown-item" href="admin_user">회원 조회</a>
 				</div></li>
 		</ul>
 
@@ -183,7 +183,7 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">취소</button>
-					<a class="btn btn-primary" href="login">확인</a>
+					<a class="btn btn-primary" href="logoutProcess">확인</a>
 				</div>
 			</div>
 		</div>

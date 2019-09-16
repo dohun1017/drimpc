@@ -49,6 +49,12 @@
 								required="required"> <label>비밀번호</label>
 						</div>
 					</div>
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="number" min = 0 name="computer_id" class="form-control"
+								required="required"> <label>좌석 번호</label>
+						</div>
+					</div>
 					<button type="submit" id="loginBtn"
 						class="btn btn-primary btn-block">로그인</button>
 				</form>
@@ -60,6 +66,41 @@
 				</div>
 			</div>
 		</div>
+		<p></p><p></p>
+						<div class="card mb-3">
+					<div class="card-header">
+						<i class="fas fa-table"></i> 좌석
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered" id="dataTable" width="100%"
+								cellspacing="0">
+								<thead>
+									<tr>
+										<th>좌석 번호</th>
+										<th>사용 가능</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${computerList}" var="computer">
+										<tr>
+											<td>${computer.computer_id}</td>
+											<c:choose>
+												<c:when test='${computer.computer_using == 0 && computer.computer_status == 1}' >
+													<td>O</td>
+												</c:when>
+												<c:when test='${computer.computer_using == 1 || computer.computer_status == 0 }'>
+													<td>X</td>
+												</c:when>
+											</c:choose>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="card-footer small text-muted">Updated at ${now_date}</div>
+				</div>
 	</div>
 
 	<!-- Bootstrap core JavaScript-->

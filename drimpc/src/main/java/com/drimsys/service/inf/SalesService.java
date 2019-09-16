@@ -15,5 +15,7 @@ public interface SalesService {
     public ProductVO salesDate(ProductVO productVO) throws Exception;
     
     public User_ProductVO select_salesAll() throws Exception;
+    
+    public List<ProductVO> batchProduct(ProductVO productVO) throws Exception;
 }
 

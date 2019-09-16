@@ -99,4 +99,10 @@ public class ProductDAOImpl implements ProductDAO {
 			return -1;
 		}
 	}
+	
+	//배치
+	@Override
+	public List<ProductVO> batchProduct(ProductVO productVO) throws Exception {
+		return sqlSession.selectList("com.drimsys.mapper.salesMapper.batchProduct",productVO);
+	}
 }

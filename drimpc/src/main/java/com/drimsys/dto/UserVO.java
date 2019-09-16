@@ -15,6 +15,8 @@ public class UserVO {
     private ProductVO productVO;
     private User_ProductVO ucVO;
     
+    private int user_time_using;
+    
 	public String getUser_id() {
 		return user_id;
 	}
@@ -77,7 +79,12 @@ public class UserVO {
 	public void setUcVO(User_ProductVO ucVO) {
 		this.ucVO = ucVO;
 	}
-	
+	public int getUser_time_using() {
+		return user_time_using;
+	}
+	public void setUser_time_using(int user_time_using) {
+		this.user_time_using = user_time_using;
+	}
 	
 }
 

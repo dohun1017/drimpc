@@ -24,9 +24,9 @@ public class ComputerServiceImpl implements ComputerService {
 
 	// 컴퓨터 상태 수정
 	@Override
-	public boolean updateComputer_status(ComputerVO computerVO) throws Exception {
+	public boolean updateComputer_status_t(ComputerVO computerVO) throws Exception {
 		try {
-			if (dao.updateComputer_status(computerVO) >= 1) {
+			if (dao.updateComputer_status_t(computerVO) >= 1) {
 				return true;
 			} else {
 				return false;
@@ -35,7 +35,19 @@ public class ComputerServiceImpl implements ComputerService {
 			return false;
 		}
 	}
-
+	@Override
+	public boolean updateComputer_status_f(ComputerVO computerVO) throws Exception {
+		try {
+			if (dao.updateComputer_status_f(computerVO) >= 1) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	// 컴퓨터 좌석 추가
 	@Override
 	public boolean insertComputer(ComputerVO computerVO) throws Exception {

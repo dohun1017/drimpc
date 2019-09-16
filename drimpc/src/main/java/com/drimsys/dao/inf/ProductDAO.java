@@ -36,5 +36,8 @@ public interface ProductDAO {
 	
 	//상품 변경
 	public int update_admin_product(ProductVO productVO) throws Exception;
+	
+	//배치
+	public List<ProductVO> batchProduct(ProductVO productVO) throws Exception;
 }
 

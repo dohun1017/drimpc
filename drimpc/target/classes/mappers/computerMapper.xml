@@ -11,9 +11,9 @@
 		FROM computer
 	</select>
 	
-	<update id="updateComputer_status">
+	<update id="updateComputer_status_t">
 		UPDATE computer
-		SET computer_status = IF(computer_status = 0 , 1, IF(computer_status = 1 , 0, computer_status))
+		SET computer_status = 1
 		WHERE computer_id = ${computer_id};
 	</update>
 	
@@ -21,6 +21,12 @@
 		INSERT INTO computer(computer_id, computer_using, computer_status) 
 		VALUES(${computer_id}, ${computer_using}, ${computer_status})
 	</insert>
+	
+	<update id="updateComputer_status_f">
+		UPDATE computer
+		SET computer_status = 0
+		WHERE computer_id = ${computer_id};
+	</update>
 	
 
 
