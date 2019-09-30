@@ -14,7 +14,7 @@
 <meta name="author" content="">
 
 <title>관리자 - 회원 조회</title>
-
+<script src="../drimpc/resources/js/jquery-3.4.1.js"></script>
 <!-- Custom fonts for this template-->
 <link href="../drimpc/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -27,10 +27,25 @@
 <!-- Custom styles for this template-->
 <link href="../drimpc/resources/css/sb-admin.css" rel="stylesheet">
 
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<!-- Bootstrap core JavaScript-->
+<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
+<script
+	src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script
+	src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Page level plugin JavaScript-->
+<script src="../drimpc/resources/vendor/datatables/jquery.dataTables.js"></script>
+<script
+	src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../drimpc/resources/js/sb-admin.min.js"></script>
+
+<!-- Demo scripts for this page-->
+<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
 
 </head>
 
@@ -38,7 +53,7 @@
 
 	<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-		<a class="navbar-brand mr-1" href="user_main">Drim PC</a>
+		<a class="navbar-brand mr-1" href="admin_product">Drim PC</a>
 
 		<button class="btn btn-link btn-sm text-white order-1 order-sm-0"
 			id="sidebarToggle" href="#">
@@ -183,24 +198,6 @@
 		</div>
 	</div>
 
-	<!-- Bootstrap core JavaScript-->
-	<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-	<!-- Core plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-	<!-- Page level plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script src="../drimpc/resources/js/sb-admin.min.js"></script>
-
-	<!-- Demo scripts for this page-->
-	<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
 
 </body>
 

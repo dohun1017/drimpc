@@ -15,6 +15,7 @@
 
 <title>관리자 - 좌석 관리</title>
 
+<script src="../drimpc/resources/js/jquery-3.4.1.js"></script>
 <!-- Custom fonts for this template-->
 <link href="../drimpc/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -27,18 +28,102 @@
 <!-- Custom styles for this template-->
 <link href="../drimpc/resources/css/sb-admin.css" rel="stylesheet">
 
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<!-- Bootstrap core JavaScript-->
+<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
+<script
+	src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+<!-- Core plugin JavaScript-->
+<script
+	src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Page level plugin JavaScript-->
+<script src="../drimpc/resources/vendor/datatables/jquery.dataTables.js"></script>
+<script
+	src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../drimpc/resources/js/sb-admin.min.js"></script>
+
+<!-- Demo scripts for this page-->
+<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var first = new Array();
+		<c:forEach items = "${computerList}" var = "computer">
+			first.push({computer_id:"${computer.computer_id}"*1, computer_using:"${computer.computer_using}"*1,computer_status:"${computer.computer_status}"*1});
+		</c:forEach>
+		draw_table(first);
+		
+		$("#editBtn").click(function(e) {
+
+			e.preventDefault();
+
+			var computer_table = $("#computerTable").DataTable();
+
+			var data = computer_table.rows().data();
+			var edit_data = new Array();
+			for (var i = 0; i < first.length; i++) {
+				if (document.getElementById(data[i][0]).value == "고장")
+					edit_data.push({
+						computer_id : data[i][0] * 1,
+						computer_status : 0
+					});
+				else
+					edit_data.push({
+						computer_id : data[i][0] * 1,
+						computer_status : 1
+					});
+			}
+			var send_data = {};
+
+			edit_data = JSON.stringify(edit_data);
+			send_data = ({computerList: edit_data});
+			$.ajax({
+				url : "/drimpc/seatEditProcess",
+				type : "GET",
+				data : send_data,
+				contentType : "application/json; charset=utf-8;",
+				dataType : "json",
+				success : function(result) {
+					if(result == null)
+						alert("수정 실패");
+					else{
+					alert("수정 성공");
+					computer_table.clear().draw();
+					draw_table(result);
+					}
+				},
+				error : function() {
+					alert("수정 실패");
+				}
+			});
+		});
+		function draw_table(computerList){
+			var tabledata = new Array();
+			for(var i = 0; i<computerList.length; i++){
+				var using, status;
+
+				if(computerList[i].computer_using == 1)
+					using = "사용중";
+				else
+					using = "사용가능";
+				if(computerList[i].computer_status == 1)
+					status = "<input type = 'text' id = '"+ computerList[i].computer_id + "' value = '정상' placeholder='상태입력(정상, 고장)' required='required'/>";
+				else
+					status = "<input type = 'text' id = '"+ computerList[i].computer_id + "' value = '고장' placeholder='상태입력(정상, 고장)' required='required'/>";
+				tabledata[i] = [computerList[i].computer_id, using, status];	
+			}
+			$("#computerTable").dataTable().fnAddData(tabledata);
+		}
+	});
+</script>
 </head>
 
 <body id="page-top">
-
 	<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-		<a class="navbar-brand mr-1" href="user_main">Drim PC</a>
+		<a class="navbar-brand mr-1" href="admin_product">Drim PC</a>
 
 		<button class="btn btn-link btn-sm text-white order-1 order-sm-0"
 			id="sidebarToggle" href="#">
@@ -105,11 +190,11 @@
 					<div class="card-header">
 						<i class="fas fa-table"></i> 좌석 관리
 					</div>
-					<form action="seatEditProcess" method="GET">
+					<form>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
+								<table class="table table-bordered" id="computerTable"
+									width="100%" cellspacing="0">
 									<thead>
 										<tr>
 											<th>아이디</th>
@@ -124,50 +209,14 @@
 											<th>고장여부</th>
 										</tr>
 									</tfoot>
-									<tbody>
-										<%
-											int i = 0;
-											String c_id = "";
-											String c_status = "";
-										%>
-										<c:forEach items="${computerList}" var="computer">
-											<%
-												c_id = "c_id" + Integer.toString(i);
-												c_status = "c_status" + Integer.toString(i);
-												i++;
-											%>
-											<tr>
-												<td>${computer.computer_id}<input type="hidden"
-													name=<%=c_id%> value="${computer.computer_id}"></td>
-												<c:choose>
-													<c:when test='${computer.computer_using == 0}'>
-														<td>사용가능&nbsp;</td>
-													</c:when>
-													<c:when test='${computer.computer_using == 1}'>
-														<td>사용중&nbsp;</td>
-													</c:when>
-												</c:choose>
-												<c:choose>
-													<c:when test='${computer.computer_status == 1}'>
-														<td><input type="text" class="form-control"
-															name=<%=c_status%> placeholder="상태입력(정상, 고장)"
-															required="required" value="정상"></td>
-													</c:when>
-													<c:when test='${computer.computer_status == 0}'>
-														<td><input type="text" class="form-control"
-															name=<%=c_status%> placeholder="상태입력(정상, 고장)"
-															required="required" value="고장"></td>
-													</c:when>
-												</c:choose>
-											</tr>
-										</c:forEach>
+									<tbody id=computerTableTBody>
 									</tbody>
 								</table>
 							</div>
 							<p></p>
 							<p></p>
 							<div align="right">
-								<button type="submit" id="editBtn" class="btn btn-primary">변경하기</button>
+								<button id="editBtn" class="btn btn-primary">변경하기</button>
 							</div>
 						</div>
 					</form>
@@ -222,24 +271,6 @@
 		</div>
 	</div>
 
-	<!-- Bootstrap core JavaScript-->
-	<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-	<!-- Core plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-	<!-- Page level plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script src="../drimpc/resources/js/sb-admin.min.js"></script>
-
-	<!-- Demo scripts for this page-->
-	<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
 
 </body>
 

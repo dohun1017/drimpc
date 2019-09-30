@@ -14,11 +14,10 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<script type="text/javascript">
-</script>
 
 <title>관리자 상품관리</title>
 
+<script src="../drimpc/resources/js/jquery-3.4.1.js"></script>
 <!-- Custom fonts for this template-->
 <link href="../drimpc/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -31,18 +30,106 @@
 <!-- Custom styles for this template-->
 <link href="../drimpc/resources/css/sb-admin.css" rel="stylesheet">
 
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<!-- Bootstrap core JavaScript-->
+<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
+<script
+	src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+<!-- Core plugin JavaScript-->
+<script
+	src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Page level plugin JavaScript-->
+<script src="../drimpc/resources/vendor/datatables/jquery.dataTables.js"></script>
+<script
+	src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../drimpc/resources/js/sb-admin.min.js"></script>
+
+<!-- Demo scripts for this page-->
+<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var first = new Array();
+		<c:forEach items = "${productList}" var = "product">
+			first.push({product_name:"${product.product_name}", product_price:"${product.product_price}"*1,product_tot:"${product.product_tot}"*1,product_available:"${product.product_available}"*1});
+		</c:forEach>
+		draw_table(first);
+		
+		
+		$("#editBtn").click(function(e) {
+
+			e.preventDefault();
+
+			var product_table = $("#productTable").DataTable();
+
+			var data = product_table.rows().data();
+			var edit_data = new Array();
+			for (var i = 0; i < first.length; i++) {
+				var available = "available" + i;
+				var tot = "tot" + i;
+				if (document.getElementById(data[i][0]+"_a").value == "판매중지")
+					edit_data.push({
+						product_name : data[i][0],
+						product_price : data[i][1] * 1,
+						product_tot : document.getElementById(data[i][0]+"_t").value,
+						product_available : 0
+					});
+				else
+					edit_data.push({
+						product_name : data[i][0],
+						product_price : data[i][1] * 1,
+						product_tot : document.getElementById(data[i][0]+"_t").value,
+						product_available : 1
+					});
+			}
+			var send_data = {};
+
+			edit_data = JSON.stringify(edit_data);
+			send_data = ({productList: edit_data});
+			$.ajax({
+				url : "/drimpc/productEditProcess",
+				type : "GET",
+				data : send_data,
+				contentType : "application/json; charset=utf-8;",
+				dataType : "json",
+				success : function(result) {
+					alert("수정 성공");
+					product_table.clear().draw();
+					draw_table(result);
+				},
+				error : function() {
+					alert("수정 실패");
+				}
+			});
+		});
+		function draw_table(productList){
+			var tabledata = new Array();
+			for(var i = 0; i<productList.length; i++){
+				if(productList[i].product_available == 1){
+					tabledata[i] = [productList[i].product_name, productList[i].product_price, 
+						"<input type='number' id='"+productList[i].product_name+"_t' class='form-control' min = 0 value = '"+productList[i].product_tot+"'>", 
+						"<input type='text' id='"+productList[i].product_name+"_a'  class='form-control' placeholder='상태입력(판매중, 판매중지)' value = '판매중'>"];
+				}
+				else{
+					tabledata[i] = [productList[i].product_name, productList[i].product_price,
+						"<input type='number' id='"+productList[i].product_name+"_t' class='form-control' min = 0 value = '"+productList[i].product_tot+"'>", 
+						"<input type='text' id='"+productList[i].product_name+"_a' class='form-control' placeholder='상태입력(판매중, 판매중지)' value = '판매중지'>"];
+				}
+			}
+// 			console.log(tabledata);
+			$("#productTable").dataTable().fnAddData(tabledata);
+		}
+	});
+</script>
 </head>
 
 <body id="page-top">
 
 	<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-		<a class="navbar-brand mr-1" href="user_main">Drim PC</a>
+		<a class="navbar-brand mr-1" href="admin_product">Drim PC</a>
 
 		<button class="btn btn-link btn-sm text-white order-1 order-sm-0"
 			id="sidebarToggle" href="#">
@@ -113,7 +200,7 @@
 					<form action="productEditProcess" method="GET">
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
+								<table class="table table-bordered" id="productTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
@@ -131,47 +218,14 @@
 											<th>판매여부</th>
 										</tr>
 									</tfoot>
-									<tbody>
-										<%
-											int i = 0;
-											String p_name = "";
-											String p_tot = "";
-											String p_available = "";
-										%>
-										<c:forEach items="${productList}" var="product">
-											<%
-												p_name = "p_name" + Integer.toString(i);
-													p_tot = "p_tot" + Integer.toString(i);
-													p_available = "p_available" + Integer.toString(i);
-													i++;
-											%>
-											<tr>
-												<td>${product.product_name}
-													<input type="hidden" name = <%=p_name%> value = "${product.product_name}">
-												</td>
-												<td>${product.product_price}</td>
-												<td><input type="number" class="form-control" name = <%=p_tot%>
-													placeholder="수량입력" value = "${product.product_tot}" min = 0></td>
-												<c:choose>
-													<c:when test='${product.product_available == 1}'>
-														<td><input type="text" class="form-control" name = <%=p_available%>
-													placeholder="상태입력(판매중, 판매중지)" value = "판매중"></td>
-													</c:when>
-													<c:when test='${product.product_available == 0}'>
-														<td><input type="text" class="form-control" name = <%=p_available%>
-													placeholder="상태입력(판매중, 판매중지)" value = "판매중지"></td>
-													</c:when>
-												</c:choose>
-											</tr>
-
-										</c:forEach>
+									<tbody id = "productTableTBody">
 									</tbody>
 								</table>
 							</div>
 							<p></p>
 							<p></p>
 							<div align="right">
-								<button type="submit" id="orderBtn" class="btn btn-primary">변경하기</button>
+								<button id="editBtn" class="btn btn-primary">변경하기</button>
 							</div>
 						</div>
 					</form>
@@ -223,25 +277,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- Bootstrap core JavaScript-->
-	<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-	<!-- Core plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-	<!-- Page level plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script src="../drimpc/resources/js/sb-admin.min.js"></script>
-
-	<!-- Demo scripts for this page-->
-	<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
 </body>
 
 </html>

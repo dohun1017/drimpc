@@ -11,7 +11,15 @@ public class UserVO {
     
     private int user_select_quantity;
     
-    private int join_user_all_price;
+    private int select_computer;
+    
+    public int getSelect_computer() {
+		return select_computer;
+	}
+	public void setSelect_computer(int select_computer) {
+		this.select_computer = select_computer;
+	}
+	private int join_user_all_price;
     private ProductVO productVO;
     private User_ProductVO ucVO;
     

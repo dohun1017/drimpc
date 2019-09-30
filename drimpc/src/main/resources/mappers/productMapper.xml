@@ -19,7 +19,7 @@
 	
 	<!-- 판매 가능 상품 목록 추출 -->
 	<select id="select_Product_available" resultType="ProductVO">
-		SELECT product_name, product_price
+		SELECT product_name, product_price, product_tot
 		FROM product
 		WHERE product_tot > 0 and product_available = 1 
 	</select>

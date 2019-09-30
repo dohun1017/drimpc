@@ -1,28 +1,36 @@
 package com.drimsys.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.junit.experimental.categories.Categories.IncludeCategory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.drimsys.dto.*;
+import com.drimsys.scheduled.TimeProcess;
 import com.drimsys.service.inf.LoginService;
 import com.drimsys.service.inf.OrderService;
 import com.drimsys.service.inf.ProductService;
 import com.drimsys.service.inf.SignUpService;
 import com.drimsys.service.inf.UserService;
-import com.drimsys.controller.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * Handles requests for the application home page.
@@ -41,68 +49,15 @@ public class UserController {
 	@Inject
 	LoginService login_service;
 
-	private InnerThread thread = new InnerThread();
-
-	public class InnerThread extends Thread {
-		UserVO userVO;
-
-		public void setUserVO(UserVO userVO) {
-			this.userVO = userVO;
-		}
-
-		public UserVO getUserVO() {
-			return this.userVO;
-		}
-
-		private void time() throws Exception {
-			while (true) {
-				if (userVO != null && userVO.getUser_id().equals("admin"))
-					break;
-				if(Thread.interrupted()){
-					break;
-				}
-				Thread.sleep(6000);
-				int user_time = userVO.getUser_time();
-				user_time -= 1;
-				userVO.setUser_time(user_time);
-				login_service.updateUser_time(userVO);
-			}
-		}
-
-		@Override
-		public void run() {
-			try {
-				time();
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}
-	}
-	
-	@RequestMapping(value = "user_logoutProcess", method = RequestMethod.GET)
-	public String user_logoutProcess(Locale locale, HttpSession session, Model model) throws Exception {
-		thread.interrupt();
-		return "redirect:/logoutProcess";
-	}
-	
-	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/user_main", method = RequestMethod.GET)
 	public String user_main(Locale locale, HttpSession session, Model model) throws Exception {
 
 		UserVO run = ((UserVO) session.getAttribute("login"));
-		if(run.getUser_time() == 0) {
-			thread.interrupt();
+		if (run.getUser_time() == 0) {
+			TimeProcess.setUserVO(null);
 			return "redirect:/logoutProcess";
 		}
-		if (thread.getState().equals(Thread.State.TIMED_WAITING) || thread.getState().equals(Thread.State.RUNNABLE)) {
-			thread.interrupt();
-			thread = new InnerThread();
-			thread.setUserVO(run);
-			thread.start();
-		} else{
-			thread.setUserVO(run);
-			thread.start();
-		}
+		TimeProcess.setUserVO(run);
 		Calendar time = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date = format.format(time.getTime());
@@ -114,7 +69,9 @@ public class UserController {
 		UserVO login_status = new UserVO();
 		login_status = (UserVO) session.getAttribute("login");
 		model.addAttribute("login_status", login_status);
-		model.addAttribute("user_time", run.getUser_time());
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user_time", run.getUser_time());
+		model.addAttribute("map", map);
 		session.setAttribute("login", run);
 
 		return "user_main";
@@ -125,56 +82,45 @@ public class UserController {
 
 		return "time_add";
 	}
+	
+	@GetMapping(value = "/orderProcess")
+	@ResponseBody
+	public List<ProductVO> orderProcess(HttpServletRequest request, HttpSession session, Model model,
+			@RequestParam("orderList") String order_str) throws Exception {
 
-	@RequestMapping(value = "/orderProcess", method = RequestMethod.GET)
-	public String orderProcess(HttpServletRequest request, HttpSession session, Model model) throws Exception {
-
-		ProductVO order_productVO = new ProductVO();
+		String user_id = ((UserVO)session.getAttribute("login")).getUser_id();
 		Calendar time = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date = format.format(time.getTime());
-		int i = 0;
-
-		while (true) {
-			String p_name = "p_name" + Integer.toString(i);
-			String p_num = "p_num" + Integer.toString(i);
-			i++;
-
-			int order_product_quantity = -1;
-			String product_name = "";
-
-			if (request.getParameter(p_num) == null || request.getParameter(p_name) == null
-					|| request.getParameter("user_id") == null)
-				break;
-
-			order_product_quantity = Integer.parseInt(request.getParameter(p_num));
-			product_name = (String) request.getParameter(p_name);
-			String user_id = (String) request.getParameter("user_id");
-
-			if (order_product_quantity == 0) {
-				continue;
-			}
-
-			order_productVO.setProduct_name(product_name);
-			order_productVO = order_service.selectProductID(order_productVO);
-
-			if (order_productVO.getProduct_tot() < order_product_quantity) {
-				continue;
-			}
-
-			order_productVO.setUser_select_quantity(order_product_quantity);
-			if (order_service.updateProductTot(order_productVO)) {
-				System.out.println("업데이트 성공");
+		
+		List<ProductVO> product_list = new ArrayList<ProductVO>();
+		JsonParser jsonParser = new JsonParser();
+		JsonArray jsonArray = (JsonArray) jsonParser.parse(order_str);
+		for (int i = 0; i < jsonArray.size(); i++) {
+			JsonObject object = (JsonObject) jsonArray.get(i);
+			String NAME = object.get("product_name").getAsString();
+			int S_QUANTITY = object.get("user_select_quantity").getAsInt();
+			
+			ProductVO product = new ProductVO();
+			product.setProduct_name(NAME);
+			product = order_service.selectProductID(product);
+			product.setUser_select_quantity(S_QUANTITY);
+			product_list.add(product);
+			
+			if (order_service.updateProductTot(product_list.get(i))) {
 				User_ProductVO orderUP = new User_ProductVO();
 				orderUP.setUser_id(user_id);
-				orderUP.setProduct_id(order_productVO.getProduct_id());
-				orderUP.setProduct_quantity(order_product_quantity);
+				orderUP.setProduct_id(product_list.get(i).getProduct_id());
+				orderUP.setProduct_quantity(product_list.get(i).getUser_select_quantity());
 				orderUP.setDate(date);
 				if (order_service.insertUser_Product(orderUP))
-					System.out.println("주문 성공");
+					System.out.println(i+"주문 성공 / ");
 			}
 		}
-		return "redirect:/user_main";
+		List<ProductVO> productList = product_service.select_Product_available();
+		return productList;
+		
+		
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -188,29 +134,25 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/order_time_Process", method = RequestMethod.GET)
-	public String order_time_Process(HttpServletRequest request, HttpSession session, Model model) throws Exception {
-
+	@ResponseBody
+	public Object order_time_Process(UserVO userVO) throws Exception{
 		ProductVO productVO = new ProductVO();
 		User_ProductVO upVO = new User_ProductVO();
-		UserVO userVO = new UserVO();
-
 		Calendar time = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String date = format.format(time.getTime());
+		String user_id = userVO.getUser_id();
+		int user_time = userVO.getUser_time();
 
-		String user_id = request.getParameter("user_id");
-		String str_user_time = request.getParameter("user_time");
-		System.out.println(str_user_time);
-
-		if (str_user_time.equals("0"))
-			return "time_add";
-		int user_time = Integer.parseInt(str_user_time);
-
+		if (user_time == 0)
+			return null;
 		userVO.setUser_id(user_id);
 		userVO.setUser_select_quantity(user_time);
+
 		if (user_id.equals("admin"))
 			if (order_service.updateUserTime(userVO))
-				return "redirect:/login";
+				return userVO;
+		
 		if (order_service.updateUserTime(userVO)) {
 			productVO.setProduct_id("시간");
 			productVO.setProduct_name("시간");
@@ -220,31 +162,29 @@ public class UserController {
 				upVO.setProduct_id("시간");
 				upVO.setProduct_quantity(user_time);
 				upVO.setDate(date);
-				if (order_service.insertUser_Product(upVO))
-					if (session.getAttribute("login") == null)
-						return "redirect:/login";
-					else if (session.getAttribute("login") != null)
-						return "redirect:/user_main";
+				if (order_service.insertUser_Product(upVO)) {
+					System.out.println("시간 추가 성공");
+					System.out.println(userVO.getUser_id());
+					System.out.println(userVO.getUser_time());
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("user_id", userVO.getUser_id());
+					map.put("user_time", userVO.getUser_select_quantity());
+//					return map;
+					return userVO;
+				}
 			}
 		}
-
-		return "time_add";
+		return null;
 	}
 
 	@RequestMapping(value = "/registerProcess", method = RequestMethod.GET)
 	public String registerProcess(HttpServletRequest request, HttpSession session, Model model) throws Exception {
 
 		if (!request.getParameter("user_pw").equals(request.getParameter("confirm_user_pw"))) {
-			System.out.println(request.getParameter("user_pw"));
-			System.out.println(request.getParameter("confirm_user_pw"));
 			return "redirect:/register";
 		}
 		if (request.getParameter("user_id") == null || request.getParameter("user_email") == null
 				|| request.getParameter("user_pw") == null || request.getParameter("user_name") == null) {
-			System.out.println(request.getParameter("user_id"));
-			System.out.println(request.getParameter("user_email"));
-			System.out.println(request.getParameter("user_name"));
-			System.out.println(request.getParameter("user_pw"));
 			return "redirect:/register";
 		}
 		UserVO userVO = new UserVO();
@@ -261,7 +201,6 @@ public class UserController {
 		List<UserVO> possible = signup_service.selectSignUpUser(userVO);
 		Iterator<UserVO> it = possible.iterator();
 		if (!it.hasNext()) {
-			System.out.println("회원가입 가능 아이디");
 			if (signup_service.insertSignUpUser(userVO)) {
 				System.out.println("회원가입 성공");
 				return "login";
@@ -291,4 +230,18 @@ public class UserController {
 		}
 		return "redirect:/forgot_password";
 	}
+
+	@RequestMapping(value = "/timeProcess", method = RequestMethod.GET)
+	@ResponseBody
+	public Object loginProcess(HttpSession session) throws Exception {
+
+		UserVO run = ((UserVO) session.getAttribute("login"));
+		if (run != null && run.getUser_time() == 0) {
+			TimeProcess.setUserVO(null);
+		}
+		TimeProcess.setUserVO(run);
+		session.setAttribute("login", run);
+		return run;
+	}
+
 }

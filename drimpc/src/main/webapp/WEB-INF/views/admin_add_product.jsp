@@ -14,12 +14,10 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<script type="text/javascript">
-	
-</script>
 
 <title>관리자 상품추가</title>
 
+<script src="../drimpc/resources/js/jquery-3.4.1.js"></script>
 <!-- Custom fonts for this template-->
 <link href="../drimpc/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -32,18 +30,101 @@
 <!-- Custom styles for this template-->
 <link href="../drimpc/resources/css/sb-admin.css" rel="stylesheet">
 
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<!-- Bootstrap core JavaScript-->
+<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
+<script
+	src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+<!-- Core plugin JavaScript-->
+<script
+	src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Page level plugin JavaScript-->
+<script src="../drimpc/resources/vendor/datatables/jquery.dataTables.js"></script>
+<script
+	src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../drimpc/resources/js/sb-admin.min.js"></script>
+
+<!-- Demo scripts for this page-->
+<script src="../drimpc/resources/js/demo/datatables-demo.js"></script> 
+<script type="text/javascript">
+$(document).ready(function() {
+	var ID = "ID", NAME = "NAME", PRICE = "PRICE", TOT = "TOT", AVAILABLE = "AVAILABLE";
+	draw_table();
+	
+	$("#addBtn").click(function(e) {
+
+		e.preventDefault();
+
+		var add_table = $("#AddTable").DataTable();
+
+		var data = add_table.rows().data();
+		var edit_data = new Array();
+		for (var i = 0; i < 5; i++) {
+			if (document.getElementById(AVAILABLE+i).value == "판매중지")
+				edit_data.push({
+					product_id : document.getElementById(ID+i).value,
+					product_name : document.getElementById(NAME+i).value,
+					product_price : document.getElementById(PRICE+i).value*1,
+					product_tot : document.getElementById(TOT+i).value*1,
+					product_available : 0
+				});
+			else
+				edit_data.push({
+					product_id : document.getElementById(ID+i).value,
+					product_name : document.getElementById(NAME+i).value,
+					product_price : document.getElementById(PRICE+i).value*1,
+					product_tot : document.getElementById(TOT+i).value*1,
+					product_available : 1
+				});
+		}
+		var send_data = {};
+
+		edit_data = JSON.stringify(edit_data);
+		send_data = ({addList: edit_data});
+		$.ajax({
+			url : "/drimpc/productAddProcess",
+			type : "GET",
+			data : send_data,
+			contentType : "application/json; charset=utf-8;",
+			dataType : "text",
+			success : function(result) {
+				if(result == null)
+					alert(result);
+				else{
+				alert(result);
+				add_table.clear().draw();
+				draw_table();
+				}
+			},
+			error : function() {
+				alert("추가 실패");
+			}
+		});
+	});
+	function draw_table(){
+		var tabledata = new Array();
+		for(var i = 0; i<5; i++){
+			tabledata[i] = ["<input type='text' id='"+ID+i+"' placeholder='예시)과자_1 / 라면_1'>",
+			"<input type='text' id='"+NAME+i+"' placeholder='예시)포카칩 / 신라면'>",
+			"<input type='number' id='"+PRICE+i+"' min = 0 placeholder='예시)1500 / 2500'>",
+			"<input type='number' id='"+TOT+i+"' min = 0 placeholder='예시)10 / 0'>",
+			"<input type='text' id='"+AVAILABLE+i+"' placeholder='예시)판매중 / 판매중지'>"];	
+		}
+		console.log(tabledata);
+		$("#AddTable").dataTable().fnAddData(tabledata);
+	}
+});
+</script>
 </head>
 
 <body id="page-top">
 
 	<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-		<a class="navbar-brand mr-1" href="user_main">Drim PC</a>
+		<a class="navbar-brand mr-1" href="admin_product">Drim PC</a>
 
 		<button class="btn btn-link btn-sm text-white order-1 order-sm-0"
 			id="sidebarToggle" href="#">
@@ -114,7 +195,7 @@
 					<form action="productAddProcess" method="GET">
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
+								<table class="table table-bordered" id="AddTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
@@ -125,47 +206,14 @@
 											<th>판매여부</th>
 										</tr>
 									</thead>
-									<tfoot>
-										<tr>
-											<th>상품ID</th>
-											<th>상품명</th>
-											<th>가격</th>
-											<th>수량</th>
-											<th>판매여부</th>
-										</tr>
-									</tfoot>
-									<tbody>
-										<%
-											int i = 0;
-											String p_id = "";
-											String p_name = "";
-											String p_price = "";
-											String p_tot = "";
-											String p_available = "";
-										%>
-										<%
-											for(;i<5;i++){
-											p_id = "p_id" + Integer.toString(i);
-												p_name = "p_name" + Integer.toString(i);
-												p_price = "p_price" + Integer.toString(i);
-												p_tot = "p_tot" + Integer.toString(i);
-												p_available = "p_available" + Integer.toString(i);
-												%>
-											<tr>
-												<td><input type="text" name=<%=p_id%> placeholder="예시)과자_1 / 라면_1"></td>
-												<td><input type="text" name=<%=p_name%> placeholder="예시)포카칩 / 신라면"></td>
-												<td><input type="number" name=<%=p_price%> min = 0 placeholder="예시)1500 / 2500"></td>
-												<td><input type="number" name=<%=p_tot%> min = 0 placeholder="예시)10 / 0"></td>
-												<td><input type="text" name=<%=p_available%> placeholder="예시)판매중 / 판매중지"></td>
-											</tr>
-											<% } %>
+									<tbody id = "AddTableTBody">
 									</tbody>
 								</table>
 							</div>
 							<p></p>
 							<p></p>
 							<div align="right">
-								<button type="submit" id="addBtn" class="btn btn-primary">추가하기</button>
+								<button id="addBtn" class="btn btn-primary">추가하기</button>
 							</div>
 						</div>
 					</form>	
@@ -217,25 +265,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- Bootstrap core JavaScript-->
-	<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-	<!-- Core plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-	<!-- Page level plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script src="../drimpc/resources/js/sb-admin.min.js"></script>
-
-	<!-- Demo scripts for this page-->
-	<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
 </body>
 
 </html>

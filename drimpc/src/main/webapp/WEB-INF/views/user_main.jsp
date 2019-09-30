@@ -14,11 +14,9 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<script type="text/javascript">
-	setTimeout("location.reload()",6000)
-</script>
 <title>사용자 - 주문</title>
 
+<script src="../drimpc/resources/js/jquery-3.4.1.js"></script>
 <!-- Custom fonts for this template-->
 <link href="../drimpc/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
@@ -31,11 +29,115 @@
 <!-- Custom styles for this template-->
 <link href="../drimpc/resources/css/sb-admin.css" rel="stylesheet">
 
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<!-- Bootstrap core JavaScript-->
+<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
+<script
+	src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+<!-- Core plugin JavaScript-->
+<script
+	src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Page level plugin JavaScript-->
+<script src="../drimpc/resources/vendor/datatables/jquery.dataTables.js"></script>
+<script
+	src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../drimpc/resources/js/sb-admin.min.js"></script>
+
+<!-- Demo scripts for this page-->
+<script src="../drimpc/resources/js/demo/datatables-demo.js"></script> 
+<script type="text/javascript">
+$(document).ready(function() {
+	setInterval(function(){
+		$.ajax({
+			url : "/drimpc/timeProcess",
+	    	type: "GET",
+			contentType : "application/json; charset=utf-8;",
+			dataType : "json",
+			success : function(result){
+				$("#user_time").text("");
+				$("#user_time").append("<i class=\"fas fa-table\"></i>");
+				$("#user_time").append("남은 시간 : "+result.user_time+"분");
+				if(result.user_time == 0)
+					location.href = "/drimpc/logoutProcess";
+			},
+			error : function(){
+				alert("남은 시간 갱신 오류");
+			}
+		});
+	},6000);
+	
+	var first = new Array();
+	<c:forEach items = "${productList}" var = "product">
+		first.push({
+			product_name:"${product.product_name}",
+			product_price:"${product.product_price}", 
+			product_tot:"${product.product_tot}",
+			user_select_quantity : 0*1});
+	</c:forEach>
+	draw_table(first);
+	
+	$("#orderBtn").click(function(e) {
+
+		e.preventDefault();
+
+		var product_table = $("#productTable").DataTable();
+		var data = product_table.rows().data();
+		var edit_data = new Array();
+		for(var i = 0; i < first.length; i++) {
+			if(document.getElementById(data[i][0]).value != 0)
+				edit_data.push({
+					product_name : data[i][0],
+					user_select_quantity : document.getElementById(data[i][0]).value*1
+				});
+		}
+		var send_data = {};
+
+		edit_data = JSON.stringify(edit_data);
+		send_data = ({orderList: edit_data});
+		$.ajax({
+			url : "/drimpc/orderProcess",
+			type : "GET",
+			data : send_data,
+			contentType : "application/json; charset=utf-8;",
+			dataType : "json",
+			success : function(result) {
+				var count = 0;
+				if(result.length == first.length){
+					for(var i = 0; i<result.length; i++)
+						if(result[i].product_tot == first[i].product_tot)
+							count++;
+					if(count == result.length)
+						alert("주문 없음");
+				}
+				if(count != result.length){
+					alert("주문 성공");
+					product_table.clear().draw();
+					draw_table(result);
+				}
+			},
+			error : function() {
+				alert("주문 실패");
+			}
+		});
+	});
+	function draw_table(productList){
+		var tabledata = new Array();
+		for(var i = 0; i<productList.length; i++){
+			tabledata[i] = [
+				productList[i].product_name, 
+				productList[i].product_price, 
+				productList[i].product_tot,
+				"<input type='number' class='form-control' id='"+productList[i].product_name+"'"+
+				" placeholder='수량입력' value=0 min=0 max="+productList[i].product_tot+"/>"];
+		}
+		first = productList;
+		$("#productTable").dataTable().fnAddData(tabledata);
+	}
+});
+</script>
 </head>
 
 <body id="page-top">
@@ -72,9 +174,9 @@
 			<li class="nav-item active"><a class="nav-link" href="user_main">
 					<i class="fas fa-fw fa-table"></i> <span>상품 주문</span>
 			</a></li>
-			<li class="nav-item active"><a class="nav-link"
-				href="time_add"> <i class="fas fa-fw fa-table"></i> <span>시간 추가</span></a>
-			</li>
+			<li class="nav-item active"><a class="nav-link" href="time_add">
+					<i class="fas fa-fw fa-table"></i> <span>시간 추가</span>
+			</a></li>
 		</ul>
 
 		<div id="content-wrapper">
@@ -91,58 +193,38 @@
 					<div class="card-header">
 						<i class="fas fa-table"></i> 상품 목록
 					</div>
-					<div class="card-header">
-						<i class="fas fa-table"></i> 남은 시간 : ${user_time}분
+					<div class="card-header" id = "user_time">
+						<i class="fas fa-table"></i> 남은 시간 : ${map.get("user_time")}분
 					</div>
-					<form action="orderProcess" method="get">
+					<form>
 						<div class="card-body">
 							<div class="table-responsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
+								<table class="table table-bordered" id="productTable" width="100%"
 									cellspacing="0">
 									<thead>
 										<tr>
 											<th>상품명</th>
 											<th>가격</th>
-											<th>수량</th>
+											<th>남은 수량</th>
+											<th>주문 수량</th>
 										</tr>
 									</thead>
 									<tfoot>
 										<tr>
 											<th>상품명</th>
 											<th>가격</th>
-											<th>수량</th>
+											<th>남은 수량</th>
+											<th>주문 수량</th>
 										</tr>
 									</tfoot>
-									<tbody>
-										<%
-										int i = 0;
-										String p_name = "";
-										String p_num = "";
-										String item = "";
-										%>
-										<c:forEach items="${productList}" var="product">
-											<% 
-											p_name = "p_name" + Integer.toString(i);
-											p_num = "p_num" + Integer.toString(i);
-											i++;
-											%>
-											<tr>
-												<td>${product.product_name}<input type="hidden"
-													name=<%=p_name%> value="${product.product_name}">
-												</td>
-												<td>${product.product_price}</td>
-												<td><input type="number" class="form-control"
-													name=<%=p_num%> placeholder="수량입력" value=0 min=0></td>
-
-											</tr>
-										</c:forEach>
+									<tbody id = "productTableTBody">
 									</tbody>
 								</table>
 							</div>
 							<div align="right">
-								<input type="hidden" name="user_id"
+								<input type="hidden" id="user_id" name = "user_id"
 									value="${login_status.user_id}">
-								<button type="submit" id="orderBtn" class="btn btn-primary">주문하기</button>
+								<button id="orderBtn" class="btn btn-primary">주문하기</button>
 							</div>
 					</form>
 				</div>
@@ -190,32 +272,11 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">취소</button>
-					<a class="btn btn-primary" href="user_logoutProcess">확인</a>
+					<a class="btn btn-primary" href="logoutProcess">확인</a>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<!-- Bootstrap core JavaScript-->
-	<script src="../drimpc/resources/vendor/jquery/jquery.min.js"></script>
-	<script
-		src="../drimpc/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-	<!-- Core plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-	<!-- Page level plugin JavaScript-->
-	<script
-		src="../drimpc/resources/vendor/datatables/dataTables.bootstrap4.js"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script src="../drimpc/resources/js/sb-admin.min.js"></script>
-
-	<!-- Demo scripts for this page-->
-	<script src="../drimpc/resources/js/demo/datatables-demo.js"></script>
-
-
 </body>
 
 </html>
