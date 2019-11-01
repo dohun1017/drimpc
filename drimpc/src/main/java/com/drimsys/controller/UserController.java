@@ -15,7 +15,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -104,6 +106,8 @@ public class UserController {
 			ProductVO product = new ProductVO();
 			product.setProduct_name(NAME);
 			product = order_service.selectProductID(product);
+			if(product.getProduct_tot() < S_QUANTITY)
+				return null;
 			product.setUser_select_quantity(S_QUANTITY);
 			product_list.add(product);
 			
@@ -225,7 +229,7 @@ public class UserController {
 		if (user_service.select_forgot_user(userVO) != null) {
 			if (user_service.update_user_pw(userVO)) {
 				System.out.println("초기화 완료");
-				return "login";
+				return "redirect:/login";
 			}
 		}
 		return "redirect:/forgot_password";
@@ -243,5 +247,36 @@ public class UserController {
 		session.setAttribute("login", run);
 		return run;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/modifyProcess", method = RequestMethod.POST)
+	public UserVO modifyProcess(HttpSession session, @RequestBody UserVO userVO) throws Exception {
+
+		String user_id = userVO.getUser_id();
+		String user_email = user_service.selectUser_email(userVO).getUser_email();
+		String user_pw = userVO.getUser_pw();
+		
+		userVO.setUser_email(user_email);
+		userVO.setUser_id(user_id);
+		userVO.setUser_pw(user_pw);
+		if (user_service.select_forgot_user(userVO) != null) {
+			if (user_service.update_user_pw(userVO)) {
+				System.out.println("초기화 완료");
+				return userVO;
+			}
+		}
+		return null;
+	}
+	
+	@RequestMapping(value = "/user_modify", method = RequestMethod.GET)
+	public String user_modify(HttpSession session, Model model) throws Exception {
+		
+		UserVO userVO = (UserVO)session.getAttribute("login");
+		model.addAttribute("login",userVO);
+		
+		return "user_modify";
+	}
+	
+	
 
 }

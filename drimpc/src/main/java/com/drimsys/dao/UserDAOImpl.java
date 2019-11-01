@@ -114,4 +114,9 @@ public class UserDAOImpl implements UserDAO {
 			return -1;
 		}
 	}
+	
+	@Override
+	public UserVO selectUser_email(UserVO userVO) throws Exception {
+		return sqlSession.selectOne("com.drimsys.mapper.userMapper.selectUser_email",userVO);
+	}
 }

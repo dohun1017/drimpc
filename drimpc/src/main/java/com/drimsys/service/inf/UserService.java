@@ -16,5 +16,7 @@ public interface UserService {
     
     //암호 초기화 가능 사용자 확인
     public UserVO select_forgot_user(UserVO userVO) throws Exception;
+    
+    public UserVO selectUser_email(UserVO userVO) throws Exception;
 }
 

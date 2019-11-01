@@ -53,7 +53,7 @@
 	$(document).ready(function() {
 		var first = new Array();
 		<c:forEach items = "${productList}" var = "product">
-			first.push({product_name:"${product.product_name}", product_price:"${product.product_price}"*1,product_tot:"${product.product_tot}"*1,product_available:"${product.product_available}"*1});
+			first.push({product_id:"${product.product_id}", product_name:"${product.product_name}", product_price:"${product.product_price}"*1,product_tot:"${product.product_tot}"*1,product_available:"${product.product_available}"*1});
 		</c:forEach>
 		draw_table(first);
 		
@@ -69,18 +69,20 @@
 			for (var i = 0; i < first.length; i++) {
 				var available = "available" + i;
 				var tot = "tot" + i;
-				if (document.getElementById(data[i][0]+"_a").value == "판매중지")
+				if (document.getElementById(data[i][1]+"_a").value == "판매중지")
 					edit_data.push({
-						product_name : data[i][0],
-						product_price : data[i][1] * 1,
-						product_tot : document.getElementById(data[i][0]+"_t").value,
+						product_id : data[i][0],
+						product_name : data[i][1],
+						product_price : data[i][2] * 1,
+						product_tot : document.getElementById(data[i][1]+"_t").value,
 						product_available : 0
 					});
 				else
 					edit_data.push({
-						product_name : data[i][0],
-						product_price : data[i][1] * 1,
-						product_tot : document.getElementById(data[i][0]+"_t").value,
+						product_id : data[i][0],
+						product_name : data[i][1],
+						product_price : data[i][2] * 1,
+						product_tot : document.getElementById(data[i][1]+"_t").value,
 						product_available : 1
 					});
 			}
@@ -108,12 +110,12 @@
 			var tabledata = new Array();
 			for(var i = 0; i<productList.length; i++){
 				if(productList[i].product_available == 1){
-					tabledata[i] = [productList[i].product_name, productList[i].product_price, 
+					tabledata[i] = [productList[i].product_id, productList[i].product_name, productList[i].product_price, 
 						"<input type='number' id='"+productList[i].product_name+"_t' class='form-control' min = 0 value = '"+productList[i].product_tot+"'>", 
 						"<input type='text' id='"+productList[i].product_name+"_a'  class='form-control' placeholder='상태입력(판매중, 판매중지)' value = '판매중'>"];
 				}
 				else{
-					tabledata[i] = [productList[i].product_name, productList[i].product_price,
+					tabledata[i] = [productList[i].product_id, productList[i].product_name, productList[i].product_price,
 						"<input type='number' id='"+productList[i].product_name+"_t' class='form-control' min = 0 value = '"+productList[i].product_tot+"'>", 
 						"<input type='text' id='"+productList[i].product_name+"_a' class='form-control' placeholder='상태입력(판매중, 판매중지)' value = '판매중지'>"];
 				}
@@ -204,6 +206,7 @@
 									cellspacing="0">
 									<thead>
 										<tr>
+											<th>상품ID</th>
 											<th>상품명</th>
 											<th>가격</th>
 											<th>수량</th>
@@ -212,6 +215,7 @@
 									</thead>
 									<tfoot>
 										<tr>
+											<th>상품ID</th>
 											<th>상품명</th>
 											<th>가격</th>
 											<th>수량</th>

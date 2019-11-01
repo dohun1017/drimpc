@@ -38,6 +38,8 @@ public interface UserDAO {
     
     //사용사 시간 업데이트
     public int updateUser_time(UserVO userVO) throws Exception;
+    
+    public UserVO selectUser_email(UserVO userVO) throws Exception;
 }
 
 

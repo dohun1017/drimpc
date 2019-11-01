@@ -103,8 +103,7 @@ public class LoginController {
 		int computer_id = userVO.getSelect_computer();
 
 		userVO = login_service.selectUserUsing(userVO);
-		if (userVO != null && userVO.getUser_using() == 0
-				&& (userVO.getUser_time() != 0 || userVO.getUser_id().equals("admin"))) {
+		if (userVO != null && userVO.getUser_using() == 0 && userVO.getUser_time() != 0) {
 			ComputerVO computerVO = new ComputerVO();
 			computerVO.setComputer_id(computer_id);
 			computerVO = login_service.selectComputerUsing(computerVO);
@@ -124,8 +123,13 @@ public class LoginController {
 						System.out.println(userVO.getUser_id()+" 로그인 성공");
 						return userVO;
 					}
+					else
+						return null;
 				}
+				else
+					return null;
 			}
+			else return null;
 		}
 		return null;
 	}

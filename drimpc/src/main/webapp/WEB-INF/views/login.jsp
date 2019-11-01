@@ -50,8 +50,7 @@ $(function() {
 						location.href = "/drimpc/user_main";
 			},
 			error : function(data) {
-// 				alert("로그인 실패");
-				swal("","test","error");
+				alert("로그인 실패");
 			}
 		});
 	});

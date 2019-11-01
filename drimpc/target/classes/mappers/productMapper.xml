@@ -13,7 +13,7 @@
 
 <!-- 상품 목록 전체 추출  -->	
 	<select id="select_admin_Product" resultType="ProductVO">
-		SELECT product_name, product_price, product_tot, product_available
+		SELECT product_name, product_price, product_tot, product_available, product_id
 		FROM product
 	</select>
 	

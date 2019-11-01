@@ -28,6 +28,8 @@ public class TimeProcess {
 		if (userVO == null || userVO.getUser_id().equals("admin")) {
 			return null;
 		}
+		if(userVO.getUser_time() == 0)
+			return userVO;
 		int user_time = userVO.getUser_time();
 		user_time -= 1;
 		userVO.setUser_time(user_time);

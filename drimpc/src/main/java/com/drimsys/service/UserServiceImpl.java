@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService {
     public UserVO select_forgot_user(UserVO userVO) throws Exception {
     	return dao.select_forgot_user(userVO);
     }
+    
+    @Override
+    public UserVO selectUser_email(UserVO userVO) throws Exception {
+    	return dao.selectUser_email(userVO);
+    }
  
 }
 

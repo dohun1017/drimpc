@@ -161,6 +161,8 @@ $(document).ready(function() {
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="userDropdown">
 					<a class="dropdown-item" href="#" data-toggle="modal"
+						data-target="#modifyModal">비밀번호 변경</a>
+					<a class="dropdown-item" href="#" data-toggle="modal"
 						data-target="#logoutModal">로그아웃</a>
 				</div></li>
 		</ul>
@@ -273,6 +275,28 @@ $(document).ready(function() {
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">취소</button>
 					<a class="btn btn-primary" href="logoutProcess">확인</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modify Modal-->
+	<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">비밀번호 변경 페이지로 이동 하시겠습니까?</h5>
+					<button class="close" type="button" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">비밀번호 변경 페이지로 이동합니다..</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button"
+						data-dismiss="modal">취소</button>
+					<a class="btn btn-primary" href="user_modify">확인</a>
 				</div>
 			</div>
 		</div>

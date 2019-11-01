@@ -16,6 +16,12 @@
 		SELECT
 		user_name,user_id,user_pw,user_using,user_time from user
 	</select>
+	
+	<select id="selectUser_email" resultType="UserVO">
+		SELECT user_id, user_email
+		FROM user
+		WHERE user_id = '${user_id}'
+	</select>
 
 	<select id="loginUser" resultType="UserVO">
 		SELECT user_using

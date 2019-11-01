@@ -39,6 +39,9 @@ public class DaySales {
 //		productVO.setEnd_date("2019-09-26 00:00");
 //		productVO.setStart_date("2019-09-25 00:00");
 		productVO = sales_service.salesDate(productVO);
-		System.out.println(productVO.getJoin_date_price());
+		if(productVO == null)
+			System.out.println("판매 내역 없음");
+		else
+			System.out.println(productVO.getJoin_date_price());
 	}
 }

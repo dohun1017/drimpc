@@ -32,6 +32,10 @@ public class TestController {
 	public String test2(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return "/test2";
 	}
+	@RequestMapping(value = "1234", method = RequestMethod.GET)
+	public String A1234(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "/1234";
+	}
 	@RequestMapping(value = "testProcess", method = RequestMethod.GET, produces="application/xml;charset=utf-8")
 	@ResponseBody
 	public String testProcess(@RequestParam(value = "MEMO")String str) throws Exception {

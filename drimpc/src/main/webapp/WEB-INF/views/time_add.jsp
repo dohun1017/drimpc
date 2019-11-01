@@ -61,7 +61,7 @@ $(function() {
 });
 </script>
 </head>
-<input type = "hidden" id = "login_id" value = "${login.user_id}" }/>
+<input type = "hidden" id = "login_id" value = "${login.user_id}"/>
 <body class="bg-dark">
 
 	<div class="container">

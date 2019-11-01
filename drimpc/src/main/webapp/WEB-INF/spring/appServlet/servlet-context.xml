@@ -45,6 +45,7 @@
 			<mvc:mapping path="/admin_seat" />
 			<mvc:mapping path="/admin_user" />
 			<mvc:mapping path="/user_main" />
+			<mvc:mapping path="/user_modify" />
 			<beans:bean class = "com.drimsys.interceptor.AuthInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
