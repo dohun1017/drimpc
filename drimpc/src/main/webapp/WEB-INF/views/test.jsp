@@ -43,11 +43,43 @@ $(document).ready(function(){
 			}
 		})
 	});
+	
+	/* class TestVO{
+		List<Byte> byteList;
+		List<Integer> dataLengths;
+		int totalLength;
+		List<String> description;
+	} */
+	
+	$("#byteBtn").click(function(){
+		$.ajax({
+			type: 'GET', 
+			url: "/drimpc/byteProcess", 
+			dataType : 'json', 
+			success: function(result) {
+				alert("byte 수신 성공 하였습니다.");
+// 				$("#byteDiv").text("");
+// 				for(var i = 0; i<result.length; i++){
+// 					$("#byteDiv").append("Byte : ");
+// 					for(var j = 0; j<result[i].byteList.length; j++){
+// 						$("#byteDiv").append(result[i].byteList[j]);
+// 					}
+					
+// 				}
+			}, 
+			error: function(result) {
+				$("#byteDiv").text("error");
+				alert("error !"); 
+			}
+		})
+	});
 });
 </script>
 </head>
 <body>
 <button id = "testBtn">testBtn</button>
 <div id = "result1"></div>
+<button id = "byteBtn">byteBtn</button>
+<div id = "byteDiv"></div>
 </body>
 </html>

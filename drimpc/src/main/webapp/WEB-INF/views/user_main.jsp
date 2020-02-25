@@ -192,11 +192,11 @@ $(document).ready(function() {
 
 				<!-- 테이블 표시 -->
 				<div class="card mb-3">
-					<div class="card-header">
-						<i class="fas fa-table"></i> 상품 목록
-					</div>
 					<div class="card-header" id = "user_time">
 						<i class="fas fa-table"></i> 남은 시간 : ${map.get("user_time")}분
+					</div>
+					<div class="card-header">
+						<i class="fas fa-table"></i> 상품 목록
 					</div>
 					<form>
 						<div class="card-body">
